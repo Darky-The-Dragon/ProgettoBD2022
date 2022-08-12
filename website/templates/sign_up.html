@@ -7,82 +7,80 @@
 
 {% block content %}
     <!--Carica il css del login da ./static-->
-    <link rel="stylesheet" href="{{url_for('static', filename='signup_style.css')}}">
-        <form method="POST">
+    <link rel="stylesheet" href="{{ url_for('static', filename='signup_style.css') }}">
+    <form method="POST">
         <h1>Sign Up</h1>
         <fieldset>
-        <legend><span class="number">1</span> Your basic info</legend>
+            <legend><span class="number">1</span> Your basic info</legend>
 
-        <div class="form-group">
-            <label for="firstName">First name:</label>
-            <input
+            <div class="form-group">
+                <label for="firstName">First name:</label>
+                <input
                         type="text"
                         class="form-control"
                         id="firstName"
                         name="firstName"
                         placeholder="Enter last name"
-            />
-        </div>
+                />
+            </div>
 
-        <div class="form-group">
-            <label for="lastName">Last name:</label>
-            <input
+            <div class="form-group">
+                <label for="lastName">Last name:</label>
+                <input
                         type="text"
                         class="form-control"
                         id="lastName"
                         name="lastName"
                         placeholder="Enter your last name"
-            />
-        </div>
+                />
+            </div>
 
-        <div class="form-group">
-            <label for="username">Username:</label>
-            <input
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input
                         type="text"
                         class="form-control"
                         id="username"
                         name="username"
                         placeholder="Enter your username"
-            />
-        </div>
+                />
+            </div>
 
-        <div class="form-group">
-            <label for="email">Email:</label>
-            <input
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input
                         type="email"
                         class="form-control"
                         id="email"
                         name="email"
                         placeholder="Enter Email"
-            />
-        </div>
+                />
+            </div>
 
-        <div class="form-group">
-            <label for="password1">Password</label>
-            <input
+            <div class="form-group">
+                <label for="password1">Password</label>
+                <input
                         type="password"
                         class="form-control"
                         id="password1"
                         name="password1"
                         placeholder="Enter your password"
-            />
-        </div>
+                />
+            </div>
 
-        <div class="form-group">
-            <label for="password2">Password (Confirm)</label>
-            <input
+            <div class="form-group">
+                <label for="password2">Password (Confirm)</label>
+                <input
                         type="password"
                         class="form-control"
                         id="password2"
                         name="password2"
                         placeholder="Confirm your password"
-            />
-        </div>
-        </fieldset>
+                />
+            </div>
 
-         <fieldset>
             <legend><span class="number">2</span> Your profile</legend>
-             <div class="form-group">
+            <div class="form-group">
                 <label for="birthDate">Birth Date</label>
                 <input
                         type="date"
@@ -95,16 +93,53 @@
 
             <div class="form-group">
                 <label for="gender" class="fadeIn second">Select your gender:</label>
-                <select class = "fadeIn second" name="gender" id="gender">
+                <select class="fadeIn second" name="gender" id="gender">
                     <option value="none">None</option>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                     <option value="other">Other</option>
                 </select>
             </div>
-        </fieldset>
 
-      <button type="submit" class="btn btn-primary">Sign Up</button>
+            <legend><span class="number">3</span> User type</legend>
+            <div class="form-group">
+                <label for="user_type">Select your user type:</label>
+                <select class="form-control" name="user_type" id="user_type">
+                    <option value="none">None</option>
+                    <option value="listener">Listener</option>
+                    <option value="artist">Artist</option>
+                </select>
+            </div>
+
+            <div class="form-group" id="listenerDiv">
+                <div class="form-group">
+                    <label for="is_premium">Select your membership type:</label>
+                    <select class="form-control" name="is_premium" id="is_premium">
+                        <option value="none">None</option>
+                        <option value="yes">Premium</option>
+                        <option value="no">Non Premium</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="noPremiumDiv">
+                    <label align="center">You chose the non-Premium membership.</label>
+                    <br/>
+                </div>
+
+                <div class="form-group" id="PremiumDiv">
+                    <label for="month_sub">For how many months do you want to subscribe?</label>
+                    <select class="form-control" name="month_sub" id="month_sub">
+                        <option value="none">None</option>
+                        <option value="1">1 month</option>
+                        <option value="3">3 months</option>
+                        <option value="6">6 months</option>
+                        <option value="12">12 months</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Sign Up</button>
+        </fieldset>
 
     </form>
 {% endblock %}
