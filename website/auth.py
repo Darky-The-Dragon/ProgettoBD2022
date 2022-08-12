@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
-from .models import User, Artist
+from .models import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
 from flask_login import login_user, login_required, logout_user, current_user
@@ -62,13 +62,14 @@ def sign_up():
         birth_date = request.form.get('birthDate')
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
-        # is_artist = request.form.get('is_artist')
-
-        user = User.query.filter_by(email=email).first()
+        user_type = request.form.get('user_type')
+        is_premium = request.form.get('is_premium')
+        month_sub = request.form.get('month_sub')
+        nickname = request.form.get('nickname')
 
         # We can check that certain requirements are met such as the minimum length etcetera and send to the user an
         # error message. We can flash the message
-
+        user = User.query.filter_by(email=email).first()
         if user:
             flash('Email already exists', category='error')
         elif len(first_name) == 0:
@@ -93,15 +94,18 @@ def sign_up():
             flash('Passwords don\'t match.', category='error')
         elif gender == "none":
             flash('Select a gender.', category='error')
+        elif user_type == "none":
+            flash('Select your user type.', category='error')
+        elif user_type == "listener" and is_premium == "none":
+            flash('Select a membership type.', category='error')
+        elif user_type == "listener" and is_premium == "yes" and month_sub == "none":
+            flash('Select how many months you want to subscribe for the Premium membership.', category='error')
         else:
             new_user = User(email=email, first_name=first_name, last_name=last_name, username=username, gender=gender,
                             birth_date=birth_date,
                             password=generate_password_hash(
                                 password1, method='sha256'))
             db.session.add(new_user)
-            # if (is_artist == 'yes'):
-            #    new_artist = Artist(id=new_user.id)
-            #    db.session.ad(new_artist)
             db.session.commit()
             login_user(new_user, remember=True)
             flash('Account created!', category='success')
