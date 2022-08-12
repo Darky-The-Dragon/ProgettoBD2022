@@ -1,0 +1,111 @@
+<!-- This means that this template called "home" will be exactly the same as "base" and I can override anything from
+"base.html"-->
+<!-- this will override the block title -->
+{% extends "base.html" %} {% block title %}Sign Up{% endblock %}
+
+<!-- I override the block content created in "base.html" -->
+
+{% block content %}
+    <!--Carica il css del login da ./static-->
+    <link rel="stylesheet" href="{{url_for('static', filename='signup_style.css')}}">
+        <form method="POST">
+        <h1>Sign Up</h1>
+        <fieldset>
+        <legend><span class="number">1</span> Your basic info</legend>
+
+        <div class="form-group">
+            <label for="firstName">First name:</label>
+            <input
+                        type="text"
+                        class="form-control"
+                        id="firstName"
+                        name="firstName"
+                        placeholder="Enter last name"
+            />
+        </div>
+
+        <div class="form-group">
+            <label for="lastName">Last name:</label>
+            <input
+                        type="text"
+                        class="form-control"
+                        id="lastName"
+                        name="lastName"
+                        placeholder="Enter your last name"
+            />
+        </div>
+
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input
+                        type="text"
+                        class="form-control"
+                        id="username"
+                        name="username"
+                        placeholder="Enter your username"
+            />
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input
+                        type="email"
+                        class="form-control"
+                        id="email"
+                        name="email"
+                        placeholder="Enter Email"
+            />
+        </div>
+
+        <div class="form-group">
+            <label for="password1">Password</label>
+            <input
+                        type="password"
+                        class="form-control"
+                        id="password1"
+                        name="password1"
+                        placeholder="Enter your password"
+            />
+        </div>
+
+        <div class="form-group">
+            <label for="password2">Password (Confirm)</label>
+            <input
+                        type="password"
+                        class="form-control"
+                        id="password2"
+                        name="password2"
+                        placeholder="Confirm your password"
+            />
+        </div>
+        </fieldset>
+
+         <fieldset>
+            <legend><span class="number">2</span> Your profile</legend>
+             <div class="form-group">
+                <label for="birthDate">Birth Date</label>
+                <input
+                        type="date"
+                        class="form-control"
+                        id="birthDate"
+                        name="birthDate"
+                        placeholder="Enter your birthday"
+                />
+            </div>
+
+            <div class="form-group">
+                <label for="gender" class="fadeIn second">Select your gender:</label>
+                <select class = "fadeIn second" name="gender" id="gender">
+                    <option value="none">None</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+        </fieldset>
+
+      <button type="submit" class="btn btn-primary">Sign Up</button>
+
+    </form>
+{% endblock %}
+

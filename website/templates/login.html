@@ -1,0 +1,44 @@
+<!-- This means that this template called "home" will be exactly the same as "base" and I can override anything from
+"base.html"-->
+<!-- this will override the block title -->
+{% extends "base.html" %} {% block title %}Login{% endblock %}
+
+<!-- I override the block content created in "base.html" -->
+
+{% block content %}
+    <!--Carica il css del login da ./static-->
+    <link rel="stylesheet" href="{{url_for('static', filename='login_style.css')}}">
+    <!-- I can use {.{.}.} to execute python code. Like {.{ text }} or {.{ user+"s" }} that will render from the py file
+    I can also write if - else statements
+    {.% if expression %}Do this{.% else %}Do that{.% endif %}
+    We can also add else if statements with {.% elif %}-->
+    <form method="POST">
+        <h1>Login</h1>
+        <fieldset>
+        <legend><span class="string">@</span> Insert your info</legend>
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    name="email"
+                    placeholder="Enter Email"
+            />
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input
+                    type="password"
+                    class="form-control"
+                    id="password"
+                    name="password"
+                    placeholder="Enter your password"
+            />
+        </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Login</button>
+
+    </form>
+{% endblock %}
+

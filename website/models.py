@@ -1,0 +1,92 @@
+# This is where we create our database models
+# Let's make a database for our users
+# This imports the database from init.py
+from . import db
+from flask_login import UserMixin
+from sqlalchemy.sql import func
+
+
+# Defining of table
+class User(db.Model, UserMixin):
+    # Defining fields
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    # We can define the maximum length and say if it's unique or not
+    email = db.Column(db.String(150), unique=True, nullable=False)
+    password = db.Column(db.String(150), nullable=False)
+    first_name = db.Column(db.String(150), nullable=False)
+    last_name = db.Column(db.String(150), nullable=False)
+    username = db.Column(db.String(150))
+    gender = db.Column(db.String(150), nullable=False)
+    birth_date = db.Column(db.Date, nullable=False)
+    # We need to specify the relationship
+    notes = db.relationship('Note')
+
+
+class Listener(db.Model):
+    id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True, nullable=False)
+
+
+class Non_Premium(db.Model):
+    id = db.Column(db.Integer, db.ForeignKey('listener.id'), primary_key=True, nullable=False)
+
+
+class Premium(db.Model):
+    id = db.Column(db.Integer, db.ForeignKey('listener.id'), primary_key=True, nullable=False)
+    reg_date = db.Column(db.Date, nullable=False)
+    month_sub = db.Column(db.Integer, nullable=False)
+
+
+class Artist(db.Model):
+    id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True, nullable=False)
+    nickname = db.Column(db.String(150))
+    n_songs = db.Column(db.Integer, nullable=False)
+    n_listeners = db.Column(db.Integer, nullable=False)
+
+
+songs_playlist = db.Table('songs_playlist',
+                          db.Column('id_playlist', db.Integer, db.ForeignKey('playlist.id'), primary_key=True,
+                                    nullable=False),
+                          db.Column('id_song', db.Integer, db.ForeignKey('song.id'), primary_key=True, nullable=False)
+                          )
+
+songs_albums = db.Table('songs_albums',
+                        db.Column('id_playlist', db.Integer, db.ForeignKey('album.id'), primary_key=True,
+                                  nullable=False),
+                        db.Column('id_song', db.Integer, db.ForeignKey('song.id'), primary_key=True, nullable=False)
+                        )
+
+
+class Playlist(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
+    id_listener = db.Column(db.Integer, db.ForeignKey('listener.id'), nullable=False)
+    playlist_name = db.Column(db.String(150), nullable=False)
+    n_songs = db.Column(db.Integer, nullable=False)
+    create_date = db.Column(db.Date, nullable=False)
+
+
+class Album(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
+    id_artist = db.Column(db.Integer, db.ForeignKey('artist.id'), nullable=False)
+    album_name = db.Column(db.String(150), nullable=False)
+    n_songs = db.Column(db.Integer, nullable=False)
+    launch_date = db.Column(db.Date, nullable=False)
+
+
+class Song(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
+    id_artist = db.Column(db.Integer, db.ForeignKey('artist.id'), nullable=False)
+    id_album = db.Column(db.Integer, db.ForeignKey('album.id'), nullable=False)
+    launch_date = db.Column(db.Date, nullable=False)
+    exp_date = db.Column(db.Date, nullable=False)
+    title = db.Column(db.String(150), nullable=False)
+    duration = db.Column(db.Time, nullable=False)
+    n_replays = db.Column(db.Integer, nullable=False)
+
+
+class Note(db.Model):
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    data = db.Column(db.String(10000), nullable=False)
+    date = db.Column(db.DateTime(timezone=True), default=func.now(), nullable=False)
+    # Use of foreign key to reference another table
+    # 1 to many relationship
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
