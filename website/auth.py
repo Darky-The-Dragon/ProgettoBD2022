@@ -1,8 +1,9 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
-from .models import User
-from werkzeug.security import generate_password_hash, check_password_hash
-from . import db
 from flask_login import login_user, login_required, logout_user, current_user
+from werkzeug.security import generate_password_hash, check_password_hash
+from .models import User, Playlist, Artist, Premium, Non_Premium, Listener
+from datetime import date
+from . import db
 
 # The URL that our website has
 
@@ -11,6 +12,11 @@ auth = Blueprint('auth', __name__)
 
 
 # To get the information from the HTML page we need to say if the page accepts data methods=['GET', 'POST']
+@auth.route('/')
+def login_redirect():
+    return redirect(url_for('auth.login'))
+
+
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -65,7 +71,17 @@ def sign_up():
         user_type = request.form.get('user_type')
         is_premium = request.form.get('is_premium')
         month_sub = request.form.get('month_sub')
-        nickname = request.form.get('nickname')
+
+        print(email)
+        print(first_name)
+        print(last_name)
+        print(password1)
+        print(username)
+        print(gender)
+        print(birth_date)
+        print(user_type)
+        print(is_premium)
+        print(month_sub)
 
         # We can check that certain requirements are met such as the minimum length etcetera and send to the user an
         # error message. We can flash the message
@@ -106,6 +122,23 @@ def sign_up():
                             password=generate_password_hash(
                                 password1, method='sha256'))
             db.session.add(new_user)
+            db.session.commit()
+            print(new_user.id)
+            if user_type == "listener":
+                new_listener = Listener(id=new_user.id)
+                db.session.add(new_listener)
+                new_playlist = Playlist(id_listener=new_user.id, playlist_name="Favourite Songs", n_songs=0,
+                                        create_date=date.today())
+                db.session.add(new_playlist)
+                if is_premium == "yes":
+                    new_premium_user = Premium(id=new_user.id, reg_date=date.today(), month_sub=month_sub)
+                    db.session.add(new_premium_user)
+                else:
+                    new_base_user = Non_Premium(id=new_user.id)
+                    db.session.add(new_base_user)
+            if user_type == "artist":
+                new_artist = Artist(id=new_user.id, n_songs=0, n_listeners=0)
+                db.session.add(new_artist)
             db.session.commit()
             login_user(new_user, remember=True)
             flash('Account created!', category='success')

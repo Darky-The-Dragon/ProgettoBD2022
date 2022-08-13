@@ -1,10 +1,7 @@
-import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from os import path
 from flask_login import LoginManager
-from sqlalchemy import create_engine
-from sqlalchemy.orm import scoped_session, sessionmaker
+
 
 db = SQLAlchemy()
 
@@ -19,10 +16,12 @@ def create_app():
     # we need to define where the roots are:
     from .views import views
     from .auth import auth
+    from .user import user
 
     # We register the blueprint:
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
+    app.register_blueprint(user, url_prefix='/')
 
     # Script that checks before we run the server every time if we created the database
     from .models import User, Note

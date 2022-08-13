@@ -38,7 +38,6 @@ class Premium(db.Model):
 
 class Artist(db.Model):
     id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True, nullable=False)
-    nickname = db.Column(db.String(150))
     n_songs = db.Column(db.Integer, nullable=False)
     n_listeners = db.Column(db.Integer, nullable=False)
 
@@ -90,3 +89,24 @@ class Note(db.Model):
     # Use of foreign key to reference another table
     # 1 to many relationship
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+
+# FUNCTIONS ----------------------------------------------------------------------------
+# Function that retrieves all users
+def user_list():
+    users = db.session.query(User.id, User.first_name, User.last_name).all()
+    # print(utenti[1])
+    print(users)
+    return users
+
+
+def user_type(user_id):
+    if db.session.query(Listener.id).filter_by(id=user_id).first() is not None:
+        return 0
+    elif db.session.query(Artist.id).filter_by(id=user_id).first() is not None:
+        return 1
+def is_premium(user_id):
+    if db.session.query(Non_Premium.id).filter_by(id=user_id).first() is not None:
+        return 0
+    elif db.session.query(Premium.id).filter_by(id=user_id).first() is not None:
+        return 1

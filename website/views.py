@@ -1,5 +1,5 @@
 # We need to import render_template to render it
-from flask import Blueprint, render_template, request, flash, jsonify
+from flask import Blueprint, render_template, request, flash, jsonify, url_for
 from flask_login import login_required, current_user
 from .models import Note
 from . import db
@@ -13,7 +13,7 @@ views = Blueprint('views', __name__)
 
 # Decorator and definition of root
 # / is the URL
-@views.route('/', methods=['GET', 'POST'])
+@views.route('/home', methods=['GET', 'POST'])
 @login_required
 def home():
     if request.method == 'POST':
@@ -28,6 +28,7 @@ def home():
             flash('Note added!', category='success')
     # To render the template we return render_template("name.html")
     # return "<h1>TEST</h1>"
+    print(f'current_user = {current_user.id}')
     return render_template("home.html", user=current_user)
 
 
