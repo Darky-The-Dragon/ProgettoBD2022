@@ -4,7 +4,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from werkzeug.utils import redirect
 
 from . import db
-from .models import User, user_type, is_premium
+from .models import User, Premium, user_type, is_premium, get_months
 
 user = Blueprint("user", __name__, static_folder='static', template_folder='templates')
 
@@ -15,4 +15,7 @@ def userprofile(user_id):
     user = User.query.filter_by(id=user_id).first()
     role = user_type(user_id)
     membership = is_premium(user_id)
-    return render_template("profile.html", user=user, role=role, membership=membership)
+    months = get_months(current_user.id)
+    if membership == 1:
+        month_sub = Premium.query.filter_by(id=user_id)
+    return render_template("profile.html", user=user, role=role, membership=membership, months=months)

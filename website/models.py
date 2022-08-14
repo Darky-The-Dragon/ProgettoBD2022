@@ -105,8 +105,15 @@ def user_type(user_id):
         return 0
     elif db.session.query(Artist.id).filter_by(id=user_id).first() is not None:
         return 1
+
+
 def is_premium(user_id):
     if db.session.query(Non_Premium.id).filter_by(id=user_id).first() is not None:
         return 0
     elif db.session.query(Premium.id).filter_by(id=user_id).first() is not None:
         return 1
+
+
+def get_months(user_id):
+    row = db.session.query(Premium).filter_by(id=user_id).first()
+    return row.month_sub
