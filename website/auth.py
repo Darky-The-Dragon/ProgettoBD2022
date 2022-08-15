@@ -133,7 +133,7 @@ def sign_up():
                 if is_premium == "yes":
                     new_premium_user = Premium(id=new_user.id, reg_date=date.today(), month_sub=month_sub)
                     db.session.add(new_premium_user)
-                else:
+                if is_premium == "no":
                     new_base_user = Non_Premium(id=new_user.id)
                     db.session.add(new_base_user)
             if user_type == "artist":

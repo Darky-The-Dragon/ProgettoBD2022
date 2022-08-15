@@ -116,4 +116,7 @@ def is_premium(user_id):
 
 def get_months(user_id):
     row = db.session.query(Premium).filter_by(id=user_id).first()
-    return row.month_sub
+    if row is None:
+        return 0
+    else:
+        return row.month_sub
