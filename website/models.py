@@ -123,6 +123,14 @@ def get_months(user_id):
     else:
         return row.month_sub
 
+
+def get_artist_name(artist_id):
+    if db.session.query(Artist.id).filter_by(id=artist_id).first() is not None:
+        artist = db.session.query(User).filter_by(id=artist_id).first()
+        return artist.username
+    else:
+        return None
+
 def album_list(artist_id):
     values = db.session.query(Album).filter_by(id_artist=artist_id).all()
     result = []

@@ -10,8 +10,19 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="d-flex flex-column align-items-center text-center">
-                                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin"
-                                     class="rounded-circle" width="150">
+                                {% if user.gender == "male" %}
+                                    <img src="https://airnfts.s3.amazonaws.com/profile-images/0xD9c4216cFE7c70344f80035B0bf5FBE01AA69d37_1619305985184.png"
+                                         alt="Admin"
+                                         class="rounded-circle" width="150">
+                                {% elif user.gender == "female" %}
+                                    <img src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"
+                                         alt="Admin"
+                                         class="rounded-circle" width="150">
+                                {% elif user.gender == "other" %}
+                                    <img src="https://cdn3.iconfinder.com/data/icons/vector-icons-6/96/256-512.png"
+                                         alt="Admin"
+                                         class="rounded-circle" width="150">
+                                {% endif %}
                                 <div class="mt-3">
                                     <h4>{{ user.username }}</h4>
                                     <p class="text-secondary mb-1">User type:</p>
@@ -33,79 +44,82 @@
                 <div class="col-md-8">
                     <div class="card mb-3">
                         <div class="card-body">
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <h6 class="mb-0">Full Name</h6>
-                                </div>
-                                <div class="col-sm-9 text-secondary">
-                                    {{ user.first_name + " " + user.last_name }}
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <h6 class="mb-0">Email</h6>
-                                </div>
-                                <div class="col-sm-9 text-secondary">
-                                    {{ user.email }}
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <h6 class="mb-0">Birth date</h6>
-                                </div>
-                                <div class="col-sm-9 text-secondary">
-                                    {{ user.birth_date }}
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-3">
-                                    <h6 class="mb-0">Gender</h6>
-                                </div>
-                                <div class="col-sm-9 text-secondary">
-                                    {{ user.gender }}
-                                </div>
-                            </div>
-                            <hr>
-                            {% if membership==0 %}
+                            <ul>
                                 <div class="row">
                                     <div class="col-sm-3">
-                                        <h6 class="mb-0">Membership</h6>
+                                        <h6 class="mb-0">Full Name</h6>
                                     </div>
-                                    <div class="col-sm-9 text-secondary">
-                                        Non Premium
-                                    </div>
-                                </div>
-                            {% endif %}
-                            {% if membership==1 %}
-                                <div class="row">
-                                    <div class="col-sm-3">
-                                        <h6 class="mb-0">Membership</h6>
-                                    </div>
-                                    <div class="col-sm-9 text-secondary">
-                                        Premium
+                                    <div class="col-sm-9">
+                                        <span>{{ user.first_name + " " + user.last_name }}</span>
                                     </div>
                                 </div>
                                 <hr>
                                 <div class="row">
                                     <div class="col-sm-3">
-                                        <h6 class="mb-0">Month subscription</h6>
+                                        <h6 class="mb-0">Email</h6>
                                     </div>
-                                    <div class="col-sm-9 text-secondary">
-                                        {{ months }} {{ "month(s)" }}
+                                    <div class="col-sm-9">
+                                        <span>{{ user.email }}</span>
                                     </div>
                                 </div>
-                            {% endif %}
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Birth date</h6>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <span>{{ user.birth_date }}</span>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <h6 class="mb-0">Gender</h6>
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <span>{{ user.gender }}</span>
+                                    </div>
+                                </div>
+                                {% if membership==0 %}
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Membership</h6>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <span>Non Premium</span>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                {% if membership==1 %}
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Membership</h6>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <span>Premium</span>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <h6 class="mb-0">Month subscription</h6>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <span>{{ months }} {{ "month(s)" }}</span>
+                                        </div>
+                                    </div>
+                                {% endif %}
 
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <a type="button" class="btn_change_password" href="/user/modify_password"
-                                       style="text-decoration: none">Change Password</a>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <a type="button" class="btn_change_password" href="/user/modify_password"
+                                           style="text-decoration: none">Change Password</a>
+                                    </div>
                                 </div>
-                            </div>
+                            </ul>
                         </div>
                     </div>
 
@@ -149,7 +163,15 @@
 
         </div>
     </div>
-
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Copyright © 2022 <a>DatabaseProject</a> <br> CaFoscari. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
     </body>
 
 {% endblock %}
