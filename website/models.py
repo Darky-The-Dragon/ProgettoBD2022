@@ -1,10 +1,12 @@
 # This is where we create our database models
 # Let's make a database for our users
 # This imports the database from init.py
-from . import db
+import operator
+
 from flask_login import UserMixin
 from sqlalchemy.sql import func
-import operator
+
+from . import db
 
 
 # Defining of table
@@ -39,9 +41,8 @@ class Premium(db.Model):
 
 class Artist(db.Model):
     id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True, nullable=False)
-    n_songs = db.Column(db.Integer, nullable=False)
+    n_songs = db.Column(db.Integer, nullable=False) # Si potrebbe togliere e usare una query
     n_listeners = db.Column(db.Integer, nullable=False)
-    nickname = db.Column(db.String(150))
 
 
 songs_playlist = db.Table('songs_playlist',
@@ -61,7 +62,7 @@ class Playlist(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
     id_listener = db.Column(db.Integer, db.ForeignKey('listener.id'), nullable=False)
     playlist_name = db.Column(db.String(150), nullable=False)
-    n_songs = db.Column(db.Integer, nullable=False)
+    n_songs = db.Column(db.Integer, nullable=False) # Da togliere, si puo usare una query
     create_date = db.Column(db.Date, nullable=False)
 
 
@@ -131,6 +132,7 @@ def get_artist_name(artist_id):
     else:
         return None
 
+
 def album_list(artist_id):
     values = db.session.query(Album).filter_by(id_artist=artist_id).all()
     result = []
@@ -138,26 +140,29 @@ def album_list(artist_id):
         result.append(i)
     return result
 
+
 def title_in_album(album_id, user_id):
     values = db.session.query(Song).filter_by(id_album=album_id, id_artist=user_id).all()
     result = []
 
     for i in values:
-       result.append(i.title)
+        result.append(i.title)
     return result
 
+
 def search_a_song(song_title):
-    if (song_title):
+    if song_title:
         found = db.session.query(Song.id).filter(Song.title.contains(song_title)).all()
         if operator.not_(found):
-           found = db.session.query(Song.id).all()
+            found = db.session.query(Song.id).all()
 
         return found
 
-def search_an_album(album_name):
-    if(album_name):
-       found = db.session.query(Album.id).filter(Album.album_name.contains(album_name)).all()
-       if operator.not_(found):
-          found = db.session.query(Album.id).all()
 
-       return found
+def search_an_album(album_name):
+    if album_name:
+        found = db.session.query(Album.id).filter(Album.album_name.contains(album_name)).all()
+        if operator.not_(found):
+            found = db.session.query(Album.id).all()
+
+        return found

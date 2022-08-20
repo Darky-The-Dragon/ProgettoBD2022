@@ -7,10 +7,17 @@ from .models import *
 # The URL that our website has
 
 # Define of blueprint
-add_album = Blueprint('add_album', __name__)
+dashboard = Blueprint('dashboard', __name__)
 
 
-@add_album.route('/user/dashboard/add_album', methods=['GET', 'POST'])
+@dashboard.route('/user/dashboard/')
+@login_required
+def dashboard_load():
+    album = album_list(current_user.id)
+    return render_template("dashboard.html", user=current_user, user_type=user_type(current_user.id), album=album)
+
+
+@dashboard.route('/user/dashboard/add_album', methods=['GET', 'POST'])
 @login_required
 def insert_album():
     album = album_list(current_user.id)

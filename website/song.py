@@ -1,9 +1,6 @@
-from flask import Blueprint, flash, request, url_for, render_template
+from flask import Blueprint, render_template
 from flask_login import login_required, current_user
-from werkzeug.security import check_password_hash, generate_password_hash
-from werkzeug.utils import redirect
 
-from . import db
 from .models import Song, Artist, get_artist_name
 
 song = Blueprint("song", __name__, static_folder='static', template_folder='templates')

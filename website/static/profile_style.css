@@ -1,48 +1,3 @@
-Lustocan
-#3108
-DarkyTheDragon, Luca6027
-
-Lustocan
- ha aggiunto
-Luca6027
- al gruppo.
- — 12/08/2022
-Hai una chiamata senza risposta da
-DarkyTheDragon
- della durata di 5 minuti.
- — 12/08/2022
-DarkyTheDragon — 12/08/2022
-sono tornato
-DarkyTheDragon
- ha avviato una chiamata che è durata 5 ore.
- — 12/08/2022
-Luca6027 — 12/08/2022
-lucazuccarello14@gmail.com
-Lustocan — 12/08/2022
-matteolovatin@hotmail.com
-DarkyTheDragon — 12/08/2022
-pip3 install -r requirements.txt
-DarkyTheDragon — 12/08/2022
-pip install pipenv
-pipenv install psycopg2 flask flask-sqlalchemy
-pip3 install -r requirements.txt
-DarkyTheDragon
- ha avviato una chiamata che è durata 5 ore.
- — 13/08/2022
-DarkyTheDragon — 13/08/2022
-sudo fuser -k xxxx/tcp
-sudo lsof -i -P | grep LISTEN | grep 5000
-Lustocan
- ha avviato una chiamata che è durata 2 ore.
- — 14/08/2022
-DarkyTheDragon — 14/08/2022
-Immagine
-Immagine
-Immagine
-Luca6027
- ha avviato una chiamata.
- — Oggi alle 16:42
-Luca6027 — Oggi alle 17:17
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900");
 
 .main-body {
@@ -50,10 +5,6 @@ Luca6027 — Oggi alle 17:17
     font-family: "Quicksand", sans-serif;
     color: #324e63;
 }
-Mostra
-profile_style.css
-2 KB
-﻿
 
 .main-body {
     padding: 15px;
@@ -147,23 +98,26 @@ Profile Style
     color: white;
 }
 
-.btn_change_password {
-    padding: 9px 20px 8px 20px;
-    color: #FFF;
-    background-color: #4bc970;
-    font-size: 18px;
-    text-align: center;
-    font-style: normal;
-    border-radius: 5px;
-    width: 100%;
+.button-change-password a {
+    font-size: 14px;
+    color: #3ac162;
+    background-color: transparent;
     border: 1px solid #3ac162;
-    border-width: 1px 1px 3px;
-    margin-bottom: 10px;
+    padding: 12px 30px;
+    display: inline-block;
+    border-radius: 25px;
+    font-weight: 400;
+    text-transform: capitalize;
+    letter-spacing: 0.5px;
+    transition: all .3s;
+    position: relative;
+    overflow: hidden;
 }
 
-.btn_change_password:hover {
-    background-color: #3ac162;
-    color: white;
+.button-change-password a:hover {
+    border-color: #fff;
+    background-color: #fff;
+    color: #3ac162;
 }
 
 .gutters-sm {
@@ -182,5 +136,22 @@ Profile Style
 
 .mb-3, .my-3 {
     margin-bottom: 1rem !important;
+}
+
+
+footer p {
+    text-align: center;
+    padding: 30px 0px;
+    color: #fff;
+    font-weight: 300;
+}
+
+footer p a {
+    color: #fff;
+    transition: all .3s;
+}
+
+footer p a:hover {
+    color: #3ac162;
 }
 

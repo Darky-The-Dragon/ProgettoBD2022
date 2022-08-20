@@ -27,11 +27,11 @@
                                     <h4>{{ user.username }}</h4>
                                     <p class="text-secondary mb-1">User type:</p>
 
-                                    {% if role==0 %}
+                                    {% if user_type==0 %}
                                         <p>Listener</p>
-                                    {% elif role==1 %}
+                                    {% elif user_type==1 %}
                                         <p>Artist</p>
-                                    {% elif role==2 %}
+                                    {% elif user_type==2 %}
                                         <p>Admin</p>
                                     {% endif %}
                                     <button class="btn_delete">Delete Account</button>
@@ -114,9 +114,9 @@
 
                                 <hr>
                                 <div class="row">
-                                    <div class="col-sm-4">
-                                        <a type="button" class="btn_change_password" href="/user/modify_password"
-                                           style="text-decoration: none">Change Password</a>
+                                    <div class="button-change-password">
+                                        <a href="/user/modify_password" style="text-decoration: none">Change
+                                            Password</a>
                                     </div>
                                 </div>
                             </ul>
@@ -163,15 +163,18 @@
 
         </div>
     </div>
+
     <footer>
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <p>Copyright © 2022 <a>DatabaseProject</a> <br> CaFoscari. All rights reserved.</p>
+                    <p>Copyright CaFoscari© 2022 <a>Database Project</a> <br> Universita CaFoscari. All rights
+                        reserved.</p>
                 </div>
             </div>
         </div>
     </footer>
+
     </body>
 
 {% endblock %}

@@ -4,7 +4,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from werkzeug.utils import redirect
 
 from . import db
-from .models import User, Premium, user_type, is_premium, get_months
+from .models import User, user_type, is_premium, get_months
 
 user = Blueprint("user", __name__, static_folder='static', template_folder='templates')
 
@@ -21,7 +21,7 @@ def userprofile(user_id):
     print(role)
     print(membership)
     print(months)
-    return render_template("profile.html", user=this_user, role=role, membership=membership, months=months)
+    return render_template("profile.html", user=this_user, user_type=role, membership=membership, months=months)
 
 
 # Funzione per la modifica della password

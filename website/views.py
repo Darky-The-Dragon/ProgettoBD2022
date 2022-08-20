@@ -1,12 +1,12 @@
 # We need to import render_template to render it
-from flask import Blueprint, render_template, request, flash, jsonify, url_for, redirect
-from flask_login import login_required, current_user
-from .models import user_type, search_a_song, search_an_album
-from .models import Note, Song
-from . import db
-import operator
 import json
 
+from flask import Blueprint, render_template, request, jsonify, url_for, redirect
+from flask_login import login_required, current_user
+
+from . import db
+from .models import Note
+from .models import user_type
 
 # The URL that our website has
 
@@ -21,12 +21,10 @@ views = Blueprint('views', __name__)
 def home():
     type = user_type(current_user.id)
 
-
     searched = request.args.get('searched')
 
     if searched:
         return redirect(url_for('searched.searched_results', search=searched))
-
 
     return render_template("home.html", user=current_user, user_type=type)
 
@@ -42,10 +40,3 @@ def delete_note():
             db.session.commit()
 
     return jsonify({})
-
-
-
-
-
-
-
