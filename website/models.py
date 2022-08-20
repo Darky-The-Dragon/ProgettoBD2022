@@ -4,6 +4,7 @@
 from . import db
 from flask_login import UserMixin
 from sqlalchemy.sql import func
+import operator
 
 
 # Defining of table
@@ -40,6 +41,7 @@ class Artist(db.Model):
     id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True, nullable=False)
     n_songs = db.Column(db.Integer, nullable=False)
     n_listeners = db.Column(db.Integer, nullable=False)
+    nickname = db.Column(db.String(150))
 
 
 songs_playlist = db.Table('songs_playlist',
@@ -120,3 +122,34 @@ def get_months(user_id):
         return 0
     else:
         return row.month_sub
+
+def album_list(artist_id):
+    values = db.session.query(Album).filter_by(id_artist=artist_id).all()
+    result = []
+    for i in values:
+        result.append(i)
+    return result
+
+def title_in_album(album_id, user_id):
+    values = db.session.query(Song).filter_by(id_album=album_id, id_artist=user_id).all()
+    result = []
+
+    for i in values:
+       result.append(i.title)
+    return result
+
+def search_a_song(song_title):
+    if (song_title):
+        found = db.session.query(Song.id).filter(Song.title.contains(song_title)).all()
+        if operator.not_(found):
+           found = db.session.query(Song.id).all()
+
+        return found
+
+def search_an_album(album_name):
+    if(album_name):
+       found = db.session.query(Album.id).filter(Album.album_name.contains(album_name)).all()
+       if operator.not_(found):
+          found = db.session.query(Album.id).all()
+
+       return found

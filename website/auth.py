@@ -1,15 +1,13 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_user, login_required, logout_user, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from .models import User, Playlist, Artist, Premium, Non_Premium, Listener
 from datetime import date
-from . import db
+from .models import *
 
 # The URL that our website has
 
 # Define of blueprint
 auth = Blueprint('auth', __name__)
-
 
 # To get the information from the HTML page we need to say if the page accepts data methods=['GET', 'POST']
 @auth.route('/')
@@ -145,3 +143,4 @@ def sign_up():
             return redirect(url_for('views.home'))
 
     return render_template("sign_up.html", user=current_user)
+

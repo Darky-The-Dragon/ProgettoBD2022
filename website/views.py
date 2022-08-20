@@ -1,9 +1,12 @@
 # We need to import render_template to render it
-from flask import Blueprint, render_template, request, flash, jsonify, url_for
+from flask import Blueprint, render_template, request, flash, jsonify, url_for, redirect
 from flask_login import login_required, current_user
-from .models import Note
+from .models import user_type, search_a_song, search_an_album
+from .models import Note, Song
 from . import db
+import operator
 import json
+
 
 # The URL that our website has
 
@@ -16,20 +19,16 @@ views = Blueprint('views', __name__)
 @views.route('/home', methods=['GET', 'POST'])
 @login_required
 def home():
-    if request.method == 'POST':
-        note = request.form.get('note')
+    type = user_type(current_user.id)
 
-        if len(note) < 1:
-            flash('Note is too short!', category='error')
-        else:
-            new_note = Note(data=note, user_id=current_user.id)
-            db.session.add(new_note)
-            db.session.commit()
-            flash('Note added!', category='success')
-    # To render the template we return render_template("name.html")
-    # return "<h1>TEST</h1>"
-    print(f'current_user = {current_user.id}')
-    return render_template("home.html", user=current_user)
+
+    searched = request.args.get('searched')
+
+    if searched:
+        return redirect(url_for('searched.searched_results', search=searched))
+
+
+    return render_template("home.html", user=current_user, user_type=type)
 
 
 @views.route('/delete-note', methods=['POST'])
@@ -43,3 +42,10 @@ def delete_note():
             db.session.commit()
 
     return jsonify({})
+
+
+
+
+
+
+

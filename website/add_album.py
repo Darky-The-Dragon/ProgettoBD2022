@@ -1,0 +1,45 @@
+from flask import Blueprint, render_template, request, flash, redirect, url_for
+from flask_login import login_user, login_required, logout_user, current_user
+from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import date
+from .models import *
+import operator
+
+# The URL that our website has
+
+# Define of blueprint
+add_album = Blueprint('add_album', __name__)
+
+@add_album.route('/dashboard', methods=['GET', 'POST'])
+def insert_album():
+    album = album_list(current_user.id)
+
+
+    if request.method == 'POST':
+        album_name = request.form.get('Album_name')
+        n_songs = request.form.get('n_songs')
+        album_c = (request.form.get('album_c'))
+        album = Album.query.filter_by(album_name=album_name).first()
+
+
+        if album_c:
+            return redirect(url_for('add_song.insert_song', album_id=album_c))
+        elif album:
+            flash('Album already exists', category='error')
+        elif operator.not_(album_name):
+            flash('Please, insert the album\'s name', category='error')
+        elif operator.not_(n_songs):
+            flash('Please, insert the number of the songs', category='error')
+        elif len(album_name) == 0:
+            flash('Album name must be greater than 0 characters', category='error')
+        elif int(n_songs) <= 0:
+            flash('Number of songs must be a positive value', category='error')
+        else:
+            new_album = Album(id_artist=current_user.id, launch_date=date.today(),
+                              n_songs=n_songs, album_name=album_name)
+            db.session.add(new_album)
+            db.session.commit()
+            flash('Album added!', category='success')
+            return redirect(url_for('add_album.insert_album'))
+
+    return render_template("dashboard.html", user=current_user, album=album)

@@ -1,0 +1,61 @@
+<!-- This means that this template called "home" will be exactly the same as "base" and I can override anything from
+"base.html"-->
+<!-- this will override the block title -->
+{% extends "base.html" %} {% block title %}Add Songs{% endblock %}
+
+<!-- I override the block content created in "base.html" -->
+
+{% block content %}
+    <!--Carica il css del login da ./static-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard_style.css') }}">
+    <form method="POST">
+        <fieldset>
+            <legend><span class="number"></span> Album Name:</legend>
+                 <h1>{{album.album_name}}</h1>
+            <legend><span class="number"></span> Songs List:</legend>
+                 {%if songs%}
+                     </br>
+                      {%for i in songs%}
+                           {{i}}</br>
+                      {%endfor%}
+                     </br></br>
+                 {% else %}
+                     </br>
+                 {%endif%}
+            <legend><span class="number">1</span> Add a song</legend>
+            <div class="form-group">
+                <label for="sname">Song's title</label>
+                <input
+                        type="text"
+                        class="form-control"
+                        id="sname"
+                        name="sname"
+                        placeholder="Enter your song's title"
+                />
+            </div>
+
+            <div class="form-group">
+                <label for="duration">Song's duration</label>
+                <input
+                        type="time"
+                        class="form-control"
+                        id="duration"
+                        name="duration"
+                        placeholder="Enter expiration date"
+                />
+            </div>
+
+            <div class="form-group">
+                <label for="ex_date">How long do you want to make the song available?</label>
+                <input
+                        type="date"
+                        class="form-control"
+                        id="ex_date"
+                        name="ex_date"
+                        placeholder="Enter "
+                />
+            </div>
+            <button type="submit" class="btn btn-primary">Add Song</button>
+        </fieldset>
+    </form>
+{% endblock %}

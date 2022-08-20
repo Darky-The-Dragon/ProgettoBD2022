@@ -1,0 +1,16 @@
+<!-- This means that this template called "home" will be exactly the same as "base" and I can override anything from
+"base.html"-->
+<!-- this will override the block title -->
+{% extends "base.html" %} {% block title %}Home{% endblock %}
+
+<!-- I override the block content created in "base.html" -->
+
+{% block content %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard_style.css') }}">
+    <br/>
+         <h2>You Searched For...</h2>
+    </br>
+
+{% endblock %}
+
+
