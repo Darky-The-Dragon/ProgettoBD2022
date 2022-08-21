@@ -41,7 +41,7 @@ class Premium(db.Model):
 
 class Artist(db.Model):
     id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True, nullable=False)
-    n_songs = db.Column(db.Integer, nullable=False) # Si potrebbe togliere e usare una query
+    n_songs = db.Column(db.Integer, nullable=False)  # Si potrebbe togliere e usare una query
     n_listeners = db.Column(db.Integer, nullable=False)
 
 
@@ -62,7 +62,7 @@ class Playlist(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
     id_listener = db.Column(db.Integer, db.ForeignKey('listener.id'), nullable=False)
     playlist_name = db.Column(db.String(150), nullable=False)
-    n_songs = db.Column(db.Integer, nullable=False) # Da togliere, si puo usare una query
+    n_songs = db.Column(db.Integer, nullable=False)  # Da togliere, si puo usare una query
     create_date = db.Column(db.Date, nullable=False)
 
 
@@ -125,6 +125,10 @@ def get_months(user_id):
         return row.month_sub
 
 
+def get_artist_data(artist_id):
+    return db.session.query(Artist).filter_by(id=artist_id).first()
+
+
 def get_artist_name(artist_id):
     if db.session.query(Artist.id).filter_by(id=artist_id).first() is not None:
         artist = db.session.query(User).filter_by(id=artist_id).first()
@@ -133,8 +137,16 @@ def get_artist_name(artist_id):
         return None
 
 
-def album_list(artist_id):
-    values = db.session.query(Album).filter_by(id_artist=artist_id).all()
+def album_list(id_artist):
+    values = db.session.query(Album).filter_by(id_artist=id_artist).all()
+    result = []
+    for i in values:
+        result.append(i)
+    return result
+
+
+def song_list(id_artist):
+    values = db.session.query(Song).filter_by(id_artist=id_artist).all()
     result = []
     for i in values:
         result.append(i)

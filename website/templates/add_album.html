@@ -1,0 +1,75 @@
+<!-- This means that this template called "home" will be exactly the same as "base" and I can override anything from
+"base.html"-->
+<!-- this will override the block title -->
+{% extends "base.html" %} {% block title %}Add Album{% endblock %}
+
+<!-- I override the block content created in "base.html" -->
+
+{% block content %}
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='add_album_style.css') }}">
+
+    <body>
+        <form method="POST">
+        <br/>
+        <h1> Albums</h1>
+        <fieldset>
+            <legend><span class="number">1</span>Choose an Album</legend>
+            <div class="fadeIn second">
+                <select class="text" name="album_c" id="album_c">
+                    <option value="None">None</option>
+                    {% if album %}
+                        {% for i in album %}
+                            <option value="{{ i.id }}">{{ i.album_name }}</option>
+                        {% endfor %}
+                    {% endif %}
+                </select>
+                {% if album %}
+                    <button type="submit" class="btn btn-primary">Add Song Into This Album</button>
+                {% endif %}
+            </div>
+        </fieldset>
+    </form>
+
+    <form method="POST">
+        <legend><span class="number">2</span> Insert an Album</legend>
+        <fieldset>
+            <div class="fadeIn second">
+                <label for="Album_name">Insert the name of the album:</label>
+                <input
+                        type="text"
+                        class="form-control"
+                        id="Album_name"
+                        name="Album_name"
+                        placeholder="Enter album name"
+                />
+            </div>
+
+            <div class="fadeIn second">
+                <label for="n_songs">Insert number of songs:</label>
+                <input
+                        type="number"
+                        class="form-control"
+                        id="n_songs"
+                        name="n_songs"
+                        placeholder="Enter amount of songs"
+                />
+            </div>
+            <button type="submit" class="btn btn-primary">Add Album</button>
+        </fieldset>
+    </form>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Copyright CaFoscari© 2022 <a>Database Project</a> <br> Universita CaFoscari. All rights
+                        reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    </body>
+
+{% endblock %}

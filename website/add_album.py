@@ -41,4 +41,4 @@ def insert_album():
             flash('Album added!', category='success')
             return redirect(url_for('add_album.insert_album'))
 
-    return render_template("dashboard.html", user=current_user, user_type=user_type(current_user.id), album=album)
+    return render_template("add_album.html", user=current_user, user_type=user_type(current_user.id), album=album)
