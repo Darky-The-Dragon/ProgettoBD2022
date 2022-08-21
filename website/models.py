@@ -77,7 +77,7 @@ class Album(db.Model):
 class Song(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
     id_artist = db.Column(db.Integer, db.ForeignKey('artist.id'), nullable=False)
-    id_album = db.Column(db.Integer, db.ForeignKey('album.id'), nullable=False)
+    id_album = db.Column(db.Integer, db.ForeignKey('album.id'))
     launch_date = db.Column(db.Date, nullable=False)
     exp_date = db.Column(db.Date, nullable=False)
     title = db.Column(db.String(150), nullable=False)
