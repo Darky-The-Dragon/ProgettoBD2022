@@ -7,30 +7,36 @@
 
 {% block content %}
     <!--Carica il css del login da ./static-->
-    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard_style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='add_song_style.css') }}">
     <body>
-    {% if album=="None" %}
+    {% if album!=None %}
+        <form method="POST">
+            <fieldset>
+                <legend><span class="number">O</span> Album Name:</legend>
+                <h1>{{ album.album_name }}</h1>
+                {% if songs %}
+                    <legend><span class="number"></span> Songs List:</legend>
+                    </br>
+                    {% for i in songs %}
+
+
+                        <ul>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">{{ i }}</h6>
+                                </div>
+                            </div>
+                            <hr>
+                        </ul>
+                    {% endfor %}
+                {% endif %}
+            </fieldset>
+        </form>
+    {% endif %}
     <form method="POST">
         <fieldset>
-            <legend><span class="number"></span> Album Name:</legend>
-                 <h1>{{ album.album_name }}</h1>
-            <legend><span class="number"></span> Songs List:</legend>
-            {% if songs %}
-                </br>
-                {% for i in songs %}
-                    {{ i }}
-                    </br>
-                {% endfor %}
-                </br></br>
-            {% else %}
-                </br>
-            {% endif %}
-        </fieldset>
-   </form>
-   {% endif %}
-   <form method="POST">
-        <fieldset>
             <legend><span class="number">1</span> Add a song</legend>
+            <br/>
             <div class="form-group">
                 <label for="sname">Song's title</label>
                 <input

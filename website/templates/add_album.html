@@ -10,14 +10,15 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='add_album_style.css') }}">
 
     <body>
-        <form method="POST">
+    <form method="POST">
         <br/>
         <h1> Albums</h1>
         <fieldset>
             <legend><span class="number">1</span>Choose an Album</legend>
+            <br/>
             <div class="fadeIn second">
                 <select class="text" name="album_c" id="album_c">
-                    <option value="None">None</option>
+                    <option value="none">None</option>
                     {% if album %}
                         {% for i in album %}
                             <option value="{{ i.id }}">{{ i.album_name }}</option>
@@ -35,6 +36,7 @@
         <legend><span class="number">2</span> Insert an Album</legend>
         <fieldset>
             <div class="fadeIn second">
+                <br/>
                 <label for="Album_name">Insert the name of the album:</label>
                 <input
                         type="text"

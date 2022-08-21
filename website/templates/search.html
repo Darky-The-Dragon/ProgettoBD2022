@@ -8,21 +8,21 @@
 {% block content %}
     <link rel="stylesheet" href="{{ url_for('static', filename='dashboard_style.css') }}">
     <br/>
-     <form method="POST">
-     <fieldset>
-       <divison class="form-group">
-         <h2>You Searched For...</h2>
-            <legend><span class="number"></span>Songs founded</legend>
-             {% for i in searched_1 %}
-                  <a href="{{url_for('views.home')}}">{{i.title}}</a></br>
-             {% endfor %}
-           <legend><span class="number"></span>Albums founded</legend>
-             {% for i in searched_2 %}
-                  <a href="{{url_for('views.home')}}">{{i.album_name}}</a></br>
-             {% endfor %}
-       </divison>
-     </fieldset>
-     </form>
+    <form method="POST">
+        <fieldset>
+            <divison class="form-group">
+                <h2>You Searched For...</h2>
+                <legend><span class="number"></span>Songs founded</legend>
+                {% for i in searched_1 %}
+                    <a href="{{ url_for('views.home') }}">{{ i.title }}</a></br>
+                {% endfor %}
+                <legend><span class="number"></span>Albums founded</legend>
+                {% for i in searched_2 %}
+                    <a href="{{ url_for('views.home') }}">{{ i.album_name }}</a></br>
+                {% endfor %}
+            </divison>
+        </fieldset>
+    </form>
     </br>
 
 {% endblock %}

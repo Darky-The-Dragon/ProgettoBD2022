@@ -1,4 +1,5 @@
 from datetime import date
+
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import current_user, login_required
 
@@ -19,7 +20,8 @@ def insert_album():
         album_name = request.form.get('Album_name')
         n_songs = request.form.get('n_songs')
         album_c = (request.form.get('album_c'))
-        if album_c:
+
+        if album_c and album_c != "none":
             return redirect(url_for('add_song.insert_song_album', album_id=album_c))
         elif Album.query.filter_by(album_name=album_name).first() is not None:
             flash('Album already exists', category='error')
@@ -38,6 +40,5 @@ def insert_album():
             db.session.commit()
             flash('Album added!', category='success')
             return redirect(url_for('add_album.insert_album', album=album))
-
 
     return render_template("add_album.html", user=current_user, user_type=user_type(current_user.id), album=album)

@@ -8,8 +8,8 @@ db = SQLAlchemy()
 def create_app():
     app = Flask(__name__)
 
-    app.config['SECRET_KEY'] = 'gianniepinotto'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:gianniepinotto@localhost:5432/progettobd'
+    app.config['SECRET_KEY'] = 'Darky12092000!'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Darky12092000!@localhost:5432/ProgettoBD'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
 
@@ -17,7 +17,8 @@ def create_app():
     from .views import views
     from .auth import auth
     from .song import song
-    from. dashboard import dashboard
+    from .album import album
+    from .dashboard import dashboard
     from .add_album import add_album
     from .add_song import add_song
     from .user import user
@@ -28,6 +29,7 @@ def create_app():
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
     app.register_blueprint(song, url_prefix='/')
+    app.register_blueprint(album, url_prefix='/')
     app.register_blueprint(dashboard, url_prefix='/')
     app.register_blueprint(add_album, url_prefix='/')
     app.register_blueprint(add_song, url_prefix='/')

@@ -153,7 +153,7 @@ def song_list(id_artist):
     return result
 
 
-def title_in_album(album_id, user_id):
+def song_list_album(album_id, user_id):
     values = db.session.query(Song).filter_by(id_album=album_id, id_artist=user_id).all()
     result = []
 

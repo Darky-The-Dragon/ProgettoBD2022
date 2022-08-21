@@ -50,6 +50,7 @@ a {
 a:hover {
     color: #3ac162;
 }
+
 h2, h3, h4, h5, h6 {
     margin-top: 0px;
     margin-bottom: 0px;
@@ -78,11 +79,6 @@ img {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
-}
-
-body {
-    font-family: 'Nunito', sans-serif;
-    color: #384047;
 }
 
 form {

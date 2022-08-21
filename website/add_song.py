@@ -1,4 +1,3 @@
-import operator
 from datetime import date
 
 from flask import Blueprint, render_template, request, flash, redirect, url_for
@@ -17,7 +16,6 @@ add_song = Blueprint('add_song', __name__)
 @add_song.route('user/dashboard/add_song/', methods=['GET', 'POST'])
 @login_required
 def insert_song():
-
     title = request.form.get('sname')
     duration = request.form.get('duration')
     ex_date = request.form.get('ex_date')
@@ -40,14 +38,16 @@ def insert_song():
             flash('Song added!', category='success')
             return redirect(url_for('add_song.insert_song'))
 
-    return render_template("add_song.html", user=current_user, user_type=user_type(current_user.id))
+    return render_template("add_song.html", user=current_user, user_type=user_type(current_user.id), album=None)
+
 
 @add_song.route('user/dashboard/add_song/<album_id>', methods=['GET', 'POST'])
 @login_required
 def insert_song_album(album_id):
     album = Album.query.filter_by(id=album_id).first()  # per avere tutti i valori della tupla
 
-    song_list = title_in_album(album.id, current_user.id)
+    song_list = song_list_album(album.id, current_user.id)
+    print(song_list)
 
     title = request.form.get('sname')
     duration = request.form.get('duration')
@@ -69,6 +69,7 @@ def insert_song_album(album_id):
             db.session.add(new_song)
             db.session.commit()
             flash('Song added!', category='success')
-            return redirect(url_for('add_song.insert_song', album_id=album.id))
+            return redirect(url_for('add_song.insert_song_album', album_id=album.id))
 
-    return render_template("add_song.html", user=current_user, user_type=user_type(current_user.id), album=album, songs=song_list)
+    return render_template("add_song.html", user=current_user, user_type=user_type(current_user.id), album=album,
+                           songs=song_list)
