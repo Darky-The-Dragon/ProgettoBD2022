@@ -175,7 +175,7 @@ def song_list(id_artist):
 
 
 def song_list_album(id_album, id_artist):
-    values = db.session.query(Song).join(songs_albums).filter_by(id_album=id_album).all()
+    values = db.session.query(Song).filter_by(id_artist=id_artist).join(songs_albums).filter_by(id_album=id_album).all()
     return values
 
 

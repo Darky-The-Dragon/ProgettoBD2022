@@ -22,7 +22,7 @@ def insert_album():
         album_c = (request.form.get('album_c'))
 
         if album_c and album_c != "none":
-            return redirect(url_for('add_song.insert_song_album', album_id=album_c))
+            return redirect(url_for('add_song.insert_song_album', id_album=album_c))
         elif Album.query.filter_by(album_name=album_name).first() is not None:
             flash('Album already exists', category='error')
         elif operator.not_(album_name):
