@@ -3,10 +3,9 @@ import json
 
 from flask import Blueprint, render_template, request, jsonify, url_for, redirect
 from flask_login import login_required, current_user
-
-from . import db
-from .models import Note
 from .models import user_type
+from . import db
+import json
 
 # The URL that our website has
 
@@ -28,14 +27,3 @@ def home():
     return render_template("home.html", user=current_user, user_type=user_type(current_user.id))
 
 
-@views.route('/delete-note', methods=['POST'])
-def delete_note():
-    note = json.loads(request.data)
-    noteId = note['noteId']
-    note = Note.query.get(noteId)
-    if note:
-        if note.user_id == current_user.id:
-            db.session.delete(note)
-            db.session.commit()
-
-    return jsonify({})

@@ -5,12 +5,14 @@ import operator
 
 from flask_login import UserMixin
 from sqlalchemy.sql import func
+from sqlalchemy import *
 
 from . import db
 
 
 # Defining of table
 class User(db.Model, UserMixin):
+    __tablename__ = "users"
     # Defining fields
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     # We can define the maximum length and say if it's unique or not
@@ -22,76 +24,96 @@ class User(db.Model, UserMixin):
     gender = db.Column(db.String(150), nullable=False)
     birth_date = db.Column(db.Date, nullable=False)
     # We need to specify the relationship
-    notes = db.relationship('Note')
+    listener = db.relationship('Listener', back_populates='user', lazy=True)
+    artist = db.relationship('Artist', back_populates='user', lazy=True)
 
 
 class Listener(db.Model):
-    id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True, nullable=False)
+    __tablename__ = 'listeners'
+    id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True, nullable=False)
+    user = db.relationship('User', back_populates='listener', lazy=True)
+    non_premium = db.relationship('Non_Premium', back_populates='listener', lazy=True)
+    premium = db.relationship('Premium', back_populates='listener', lazy=True)
+    playlist = db.relationship('Playlist', back_populates='listener', lazy=True)
 
 
 class Non_Premium(db.Model):
-    id = db.Column(db.Integer, db.ForeignKey('listener.id'), primary_key=True, nullable=False)
+    __tablename__ = 'non_premiums'
+    id = db.Column(db.Integer, db.ForeignKey('listeners.id'), primary_key=True, nullable=False)
+    listener = db.relationship('Listener', back_populates='non_premium', lazy=True)
 
 
 class Premium(db.Model):
-    id = db.Column(db.Integer, db.ForeignKey('listener.id'), primary_key=True, nullable=False)
+    __tablename__ = 'premiums'
+
+    id = db.Column(db.Integer, db.ForeignKey('listeners.id'), primary_key=True, nullable=False)
     reg_date = db.Column(db.Date, nullable=False)
     month_sub = db.Column(db.Integer, nullable=False)
 
+    listener = db.relationship('Listener', back_populates='premium', lazy=True)
+
 
 class Artist(db.Model):
-    id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True, nullable=False)
-    n_songs = db.Column(db.Integer, nullable=False)  # Si potrebbe togliere e usare una query
+    __tablename__ = "artists"
+
+    id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True, nullable=False)
+    n_songs = db.Column(db.Integer, nullable=False)# Si potrebbe togliere e usare una query
     n_listeners = db.Column(db.Integer, nullable=False)
+    user = db.relationship('User', back_populates='artist', lazy=True)
+    album = db.relationship('Album', back_populates='artist', lazy=True)
+    song = db.relationship('Song', back_populates='artist', lazy=True)
 
 
-songs_playlist = db.Table('songs_playlist',
-                          db.Column('id_playlist', db.Integer, db.ForeignKey('playlist.id'), primary_key=True,
+songs_playlist = db.Table('songs_playlists',
+                          db.Column('id_playlist', db.Integer, db.ForeignKey('playlists.id'), primary_key=True,
                                     nullable=False),
-                          db.Column('id_song', db.Integer, db.ForeignKey('song.id'), primary_key=True, nullable=False)
+                          db.Column('id_song', db.Integer, db.ForeignKey('songs.id'), primary_key=True, nullable=False),
                           )
 
 songs_albums = db.Table('songs_albums',
-                        db.Column('id_playlist', db.Integer, db.ForeignKey('album.id'), primary_key=True,
+                        db.Column('id_album', db.Integer, db.ForeignKey('albums.id'), primary_key=True,
                                   nullable=False),
-                        db.Column('id_song', db.Integer, db.ForeignKey('song.id'), primary_key=True, nullable=False)
+                        db.Column('id_song', db.Integer, db.ForeignKey('songs.id'), primary_key=True, nullable=False),
                         )
 
 
 class Playlist(db.Model):
+    __tablename__ = "playlists"
+
     id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
-    id_listener = db.Column(db.Integer, db.ForeignKey('listener.id'), nullable=False)
+    id_listener = db.Column(db.Integer, db.ForeignKey('listeners.id'), nullable=False)
     playlist_name = db.Column(db.String(150), nullable=False)
     n_songs = db.Column(db.Integer, nullable=False)  # Da togliere, si puo usare una query
     create_date = db.Column(db.Date, nullable=False)
+    listener = db.relationship('Listener', back_populates='playlist', lazy=True)
+    song = db.relationship('Song', secondary=songs_playlist, back_populates='playlist', lazy=True)
 
 
 class Album(db.Model):
+    __tablename__ = "albums"
+
     id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
-    id_artist = db.Column(db.Integer, db.ForeignKey('artist.id'), nullable=False)
+    id_artist = db.Column(db.Integer, db.ForeignKey('artists.id'), nullable=False)
     album_name = db.Column(db.String(150), nullable=False)
     n_songs = db.Column(db.Integer, nullable=False)
     launch_date = db.Column(db.Date, nullable=False)
+    artist = db.relationship('Artist', back_populates='album', lazy=True)
+    song = db.relationship('Song', secondary=songs_albums, back_populates='album', lazy=True)
 
 
 class Song(db.Model):
+    __tablename__ = "songs"
+
     id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
-    id_artist = db.Column(db.Integer, db.ForeignKey('artist.id'), nullable=False)
-    id_album = db.Column(db.Integer, db.ForeignKey('album.id'))
+    id_artist = db.Column(db.Integer, db.ForeignKey('artists.id'), nullable=False)
     launch_date = db.Column(db.Date, nullable=False)
     exp_date = db.Column(db.Date, nullable=False)
     title = db.Column(db.String(150), nullable=False)
     duration = db.Column(db.Time, nullable=False)
     n_replays = db.Column(db.Integer, nullable=False)
-
-
-class Note(db.Model):
-    id = db.Column(db.Integer, primary_key=True, nullable=False)
-    data = db.Column(db.String(10000), nullable=False)
-    date = db.Column(db.DateTime(timezone=True), default=func.now(), nullable=False)
-    # Use of foreign key to reference another table
-    # 1 to many relationship
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    artist = db.relationship('Artist', back_populates='song', lazy=True)
+    album = db.relationship('Album', secondary=songs_albums, back_populates='song', lazy=True)
+    playlist = db.relationship('Playlist', secondary=songs_playlist, back_populates='song', lazy=True)
 
 
 # FUNCTIONS ----------------------------------------------------------------------------
