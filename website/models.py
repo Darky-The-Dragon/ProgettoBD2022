@@ -4,6 +4,7 @@
 import operator
 
 from flask_login import UserMixin
+from sqlalchemy import event
 from sqlalchemy.sql import func
 from sqlalchemy import *
 
@@ -57,7 +58,7 @@ class Artist(db.Model):
     __tablename__ = "artists"
 
     id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True, nullable=False)
-    n_songs = db.Column(db.Integer, nullable=False)# Si potrebbe togliere e usare una query
+    n_songs = db.Column(db.Integer, nullable=False)  # Si potrebbe togliere e usare una query
     n_listeners = db.Column(db.Integer, nullable=False)
     user = db.relationship('User', back_populates='artist', lazy=True)
     album = db.relationship('Album', back_populates='artist', lazy=True)
@@ -114,6 +115,9 @@ class Song(db.Model):
     artist = db.relationship('Artist', back_populates='song', lazy=True)
     album = db.relationship('Album', secondary=songs_albums, back_populates='song', lazy=True)
     playlist = db.relationship('Playlist', secondary=songs_playlist, back_populates='song', lazy=True)
+
+
+
 
 
 # FUNCTIONS ----------------------------------------------------------------------------
@@ -176,7 +180,7 @@ def song_list(id_artist):
 
 
 def song_list_album(album_id, user_id):
-    values = db.session.query(Song).filter_by(id_album=album_id, id_artist=user_id).all()
+    values = db.session.query(Song).Join(songs_albums).filter_by(id_album=album_id, id_artist=user_id).all()
     result = []
 
     for i in values:
