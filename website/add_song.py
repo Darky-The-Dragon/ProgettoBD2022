@@ -46,6 +46,9 @@ def insert_song():
 def insert_song_album(id_album):
     album = Album.query.filter_by(id=id_album).first()  # per avere tutti i valori della tupla
 
+    if album is None:
+        return render_template("404.html", user=current_user, user_type=user_type(current_user.id))
+
     song_list = song_list_album(id_album, current_user.id)
     print(song_list)
 

@@ -1,0 +1,128 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900");
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, div
+pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q,
+s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li,
+figure, header, nav, section, article, aside, footer, figcaption {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+}
+
+html[xmlns] .clearfix {
+    display: block;
+}
+
+* html .clearfix {
+    height: 1%;
+}
+
+header, nav, section, article, aside, footer, hgroup {
+    display: block;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    background-color: #1e1e1e;
+    font-size: 16px;
+    -ms-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+h2, h3, h4, h5, h6 {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    color: #fff;
+    font-weight: 700;
+}
+
+p {
+    font-size: 15px;
+    line-height: 30px;
+    color: #fff;
+}
+
+html, body {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    background-color: #27292a;
+    font-size: 16px;
+    -ms-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    color: #fff;
+    font-weight: 700;
+}
+
+
+* {
+    transition: all 0.6s;
+}
+
+#main {
+    display: table;
+    width: 100%;
+    height: 100vh;
+    text-align: center;
+}
+
+.fof {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.fof h1 {
+    font-size: 200px;
+    display: inline-block;
+    padding-right: 12px;
+    animation: type .5s alternate infinite;
+}
+
+.button a {
+    font-size: 18px;
+    color: #3ac162;
+    background-color: transparent;
+    border: 1px solid #3ac162;
+    margin-inline-start: 30px;
+    margin-inline-end: 30px;
+    padding: 10px 20px;
+    display: inline-block;
+    border-radius: 30px;
+
+    text-transform: capitalize;
+    text-align: center;
+    font-style: normal;
+    letter-spacing: 0.5px;
+    transition: all .3s;
+    position: relative;
+    overflow: hidden;
+    width: 32%;
+}
+
+.button a:hover {
+    border-color: #fff;
+    background-color: #fff;
+    color: #3ac162;
+}
+
+@keyframes type {
+    from {
+        box-shadow: inset -3px 0px 0px #888;
+    }
+    to {
+        box-shadow: inset -3px 0px 0px transparent;
+    }
+}
