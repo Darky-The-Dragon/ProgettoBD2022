@@ -14,14 +14,13 @@ user = Blueprint("user", __name__, static_folder='static', template_folder='temp
 @login_required
 def userprofile(user_id):
     this_user = User.query.filter_by(id=user_id).first()
-    role = user_type(user_id)
     membership = is_premium(user_id)
     months = get_months(current_user.id)
     print(this_user)
     print(role)
     print(membership)
     print(months)
-    return render_template("profile.html", user=this_user, user_type=role, membership=membership, months=months)
+    return render_template("profile.html", user=this_user, user_type=user_type(current_user.id), membership=membership, months=months)
 
 
 # Funzione per la modifica della password

@@ -19,14 +19,13 @@ views = Blueprint('views', __name__)
 @views.route('/home', methods=['GET', 'POST'])
 @login_required
 def home():
-    type = user_type(current_user.id)
 
     searched = request.args.get('searched')
 
     if searched:
         return redirect(url_for('searched.searched_results', search=searched))
 
-    return render_template("home.html", user=current_user, user_type=type)
+    return render_template("home.html", user=current_user, user_type=user_type(current_user.id))
 
 
 @views.route('/delete-note', methods=['POST'])
