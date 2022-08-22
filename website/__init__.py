@@ -7,9 +7,8 @@ db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__)
-
-    app.config['SECRET_KEY'] = 'Darky12092000!'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Darky12092000!@localhost:5432/ProgettoBD'
+    app.config['SECRET_KEY'] = 'En1ahzie'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:En1ahzie@localhost/ProgettoBD'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
 
@@ -35,7 +34,7 @@ def create_app():
     app.register_blueprint(add_song, url_prefix='/')
     app.register_blueprint(searched, url_prefix='/')
     # Script that checks before we run the server every time if we created the database
-    from .models import User, Note
+    from .models import User
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
