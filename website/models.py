@@ -157,8 +157,24 @@ def get_artist_name(artist_id):
         return None
 
 
+def get_listener_name(listener_id):
+    if db.session.query(Listener.id).filter_by(id=listener_id).first() is not None:
+        listener = db.session.query(User).filter_by(id=listener_id).first()
+        return listener.username
+    else:
+        return None
+
+
 def album_list(id_artist):
     values = db.session.query(Album).filter_by(id_artist=id_artist).all()
+    result = []
+    for i in values:
+        result.append(i)
+    return result
+
+
+def playlist_list(id_listener):
+    values = db.session.query(Playlist).filter_by(id_listener=id_listener).all()
     result = []
     for i in values:
         result.append(i)
@@ -175,6 +191,11 @@ def song_list(id_artist):
 
 def song_list_album(id_album, id_artist):
     values = db.session.query(Song).filter_by(id_artist=id_artist).join(songs_albums).filter_by(id_album=id_album).all()
+    return values
+
+
+def song_list_playlist(id_playlist, id_listener):
+    values = db.session.query(Song).filter_by(id_artist=id_listener).join(songs_playlist).filter_by(id_playlist=id_playlist).all()
     return values
 
 
