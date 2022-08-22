@@ -155,11 +155,7 @@ def song_list(id_artist):
 
 def song_list_album(album_id, user_id):
     values = db.session.query(Song).filter_by(id_album=album_id, id_artist=user_id).all()
-    result = []
-
-    for i in values:
-        result.append(i.title)
-    return result
+    return values
 
 
 def search_a_song(song_title):
