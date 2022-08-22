@@ -4,8 +4,7 @@
 import operator
 
 from flask_login import UserMixin
-from sqlalchemy.sql import func
-from sqlalchemy import *
+
 
 from . import db
 
@@ -175,8 +174,8 @@ def song_list(id_artist):
     return result
 
 
-def song_list_album(album_id, user_id):
-    values = db.session.query(Song).filter_by(id_album=album_id, id_artist=user_id).all()
+def song_list_album(id_album, id_artist):
+    values = db.session.query(Song).join(songs_albums).filter_by(id_album=id_album).all()
     return values
 
 

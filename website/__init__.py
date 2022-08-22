@@ -7,8 +7,8 @@ db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__)
-    app.config['SECRET_KEY'] = 'En1ahzie'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:En1ahzie@localhost/ProgettoBD'
+    app.config['SECRET_KEY'] = 'Darky12092000!'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Darky12092000!@localhost/ProgettoBD'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
 

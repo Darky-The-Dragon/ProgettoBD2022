@@ -41,12 +41,12 @@ def insert_song():
     return render_template("add_song.html", user=current_user, user_type=user_type(current_user.id), album=None)
 
 
-@add_song.route('user/dashboard/add_song/<album_id>', methods=['GET', 'POST'])
+@add_song.route('user/dashboard/add_song/<id_album>', methods=['GET', 'POST'])
 @login_required
-def insert_song_album(album_id):
-    album = Album.query.filter_by(id=album_id).first()  # per avere tutti i valori della tupla
+def insert_song_album(id_album):
+    album = Album.query.filter_by(id=id_album).first()  # per avere tutti i valori della tupla
 
-    song_list = song_list_album(album.id, current_user.id)
+    song_list = song_list_album(id_album, current_user.id)
     print(song_list)
 
     title = request.form.get('sname')
@@ -64,12 +64,15 @@ def insert_song_album(album_id):
         elif operator.not_(ex_date):
             flash('Please, type the expiration date of your song', category='error')
         else:
-            new_song = Song(id_artist=current_user.id, id_album=album.id, launch_date=date.today(),
+            new_song = Song(id_artist=current_user.id, launch_date=date.today(),
                             exp_date=ex_date, title=title, duration=duration, n_replays=0)
             db.session.add(new_song)
             db.session.commit()
+            new_songs_album = songs_albums.insert().values(id_album=id_album, id_song=new_song.id)
+            db.session.execute(new_songs_album)
+            db.session.commit()
             flash('Song added!', category='success')
-            return redirect(url_for('add_song.insert_song_album', album_id=album.id))
+            return redirect(url_for('add_song.insert_song_album', id_album=album.id))
 
     return render_template("add_song.html", user=current_user, user_type=user_type(current_user.id), album=album,
                            songs=song_list)
