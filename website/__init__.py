@@ -19,6 +19,7 @@ def create_app():
     from .song import song
     from .album import album
     from .playlist import playlist
+    from .favourites import favourites
     from .dashboard import dashboard
     from .add_song import add_song
     from .add_album import add_album
@@ -32,6 +33,7 @@ def create_app():
     app.register_blueprint(song, url_prefix='/')
     app.register_blueprint(album, url_prefix='/')
     app.register_blueprint(playlist, url_prefix='/')
+    app.register_blueprint(favourites, url_prefix='/')
     app.register_blueprint(dashboard, url_prefix='/')
     app.register_blueprint(add_song, url_prefix='/')
     app.register_blueprint(add_album, url_prefix='/')

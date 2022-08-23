@@ -94,6 +94,7 @@ class Album(db.Model):
     id_artist = db.Column(db.Integer, db.ForeignKey('artists.id'), nullable=False)
     album_name = db.Column(db.String(150), nullable=False)
     n_songs = db.Column(db.Integer, nullable=False)
+    description = db.Column(db.String(500), nullable=False)
     launch_date = db.Column(db.Date, nullable=False)
     artist = db.relationship('Artist', back_populates='album', lazy=True)
     song = db.relationship('Song', secondary=songs_albums, back_populates='album', lazy=True)
@@ -175,10 +176,7 @@ def album_list(id_artist):
 
 def playlist_list(id_listener):
     values = db.session.query(Playlist).filter_by(id_listener=id_listener).all()
-    result = []
-    for i in values:
-        result.append(i)
-    return result
+    return values
 
 
 def song_list(id_artist):
@@ -194,8 +192,8 @@ def song_list_album(id_album, id_artist):
     return values
 
 
-def song_list_playlist(id_playlist, id_listener):
-    values = db.session.query(Song).filter_by(id_artist=id_listener).join(songs_playlist).filter_by(id_playlist=id_playlist).all()
+def song_list_playlist(id_playlist):
+    values = db.session.query(Song).join(songs_playlist).filter_by(id_playlist=id_playlist).all()
     return values
 
 

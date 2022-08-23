@@ -16,7 +16,7 @@ def favourites_data():
 
     listener = Listener.query.filter_by(id=this_favourites.id_listener).first()
     listener_nickname = get_listener_name(listener.id)
-    song_list = song_list_playlist(this_favourites.id, listener.id)
+    song_list = song_list_playlist(this_favourites.id)
     print(song_list)
     return render_template("playlist_metadata.html", user=current_user, user_type=user_type(current_user.id),
                            playlist=this_favourites, listener=listener_nickname,
