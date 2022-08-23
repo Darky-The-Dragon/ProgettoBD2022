@@ -9,7 +9,8 @@ favourites = Blueprint("favourites", __name__, static_folder='static', template_
 @favourites.route('/user/favourites/')
 @login_required
 def favourites_data():
-    this_favourites = Playlist.query.filter_by(id_listener=current_user.id).filter(Playlist.playlist_name.contains("Favourite Songs")).first()
+    this_favourites = Playlist.query.filter_by(id_listener=current_user.id).filter(
+        Playlist.playlist_name.contains("Favourite Songs")).first()
 
     if this_favourites is None:
         return render_template("404.html")

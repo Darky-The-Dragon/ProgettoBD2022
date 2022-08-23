@@ -13,9 +13,9 @@ dashboard = Blueprint('dashboard', __name__)
 @login_required
 def dashboard_load():
     artist = get_artist_data(current_user.id)
-    album = album_list(current_user.id)
-    n_album = len(album)
+    albums = album_list(current_user.id)
+    n_album = len(albums)
     songs = song_list(current_user.id)
     n_songs = len(songs)
     return render_template("dashboard.html", user=current_user, user_type=user_type(current_user.id), artist=artist,
-                           n_album=n_album, n_songs=n_songs)
+                           albums=albums, n_album=n_album, n_songs=n_songs)

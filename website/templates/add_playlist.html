@@ -12,52 +12,52 @@
     <body>
     <form method="POST">
         <br/>
-        <h1> Albums</h1>
+        <h1>Playlists</h1>
         <fieldset>
-            <legend><span class="number">1</span>Choose an Album</legend>
+            <legend><span class="number">1</span>Choose a Playlist</legend>
             <br/>
             <div class="fadeIn second">
-                <select class="text" name="album_c" id="album_c">
+                <select class="text" name="playlist_c" id="playlist_c">
                     <option value="none">None</option>
-                    {% if album %}
-                        {% for i in album %}
-                            <option value="{{ i.id }}">{{ i.album_name }}</option>
+                    {% if playlist %}
+                        {% for i in playlist %}
+                            <option value="{{ i.id }}">{{ i.playlist_name }}</option>
                         {% endfor %}
                     {% endif %}
                 </select>
-                {% if album %}
-                    <button type="submit" class="btn btn-primary">Add Song Into This Album</button>
+                {% if playlist %}
+                    <button type="submit" class="btn btn-primary">Add Song Into This Playlist</button>
                 {% endif %}
             </div>
         </fieldset>
     </form>
 
     <form method="POST">
-        <legend><span class="number">2</span> Insert an Album</legend>
+        <legend><span class="number">2</span> Create a Playlist</legend>
         <fieldset>
             <div class="fadeIn second">
                 <br/>
-                <label for="Album_name">Insert the name of the album:</label>
+                <label for="playlist_name">Insert the name of the playlist:</label>
                 <input
                         type="text"
                         class="form-control"
-                        id="Album_name"
-                        name="Album_name"
-                        placeholder="Enter album name"
+                        id="playlist_name"
+                        name="playlist_name"
+                        placeholder="Enter playlist name"
                 />
             </div>
 
             <div class="fadeIn second">
-                <label for="n_songs">Insert number of songs:</label>
+                <label for="description">Insert a description for your playlist:</label>
                 <input
-                        type="number"
+                        type="text"
                         class="form-control"
-                        id="n_songs"
-                        name="n_songs"
-                        placeholder="Enter amount of songs"
+                        id="description"
+                        name="description"
+                        placeholder="Enter a description"
                 />
             </div>
-            <button type="submit" class="btn btn-primary">Add Album</button>
+            <button type="submit" class="btn btn-primary">Add Playlist</button>
         </fieldset>
     </form>
 
@@ -72,6 +72,6 @@
         </div>
     </footer>
 
-    </body>
+    </body>4
 
 {% endblock %}

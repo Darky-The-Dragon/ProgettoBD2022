@@ -19,22 +19,22 @@
                             <br>
                             {% for i in playlists %}
                                 {% if i.playlist_name != "Favourite Songs" %}
-                                <div class="item">
-                                    <ul>
-                                        <li><img
-                                                src="https://www.shareicon.net/data/512x512/2016/04/07/746120_logo_512x512.png"
-                                                alt="" class="templatemo-item"></li>
-                                        <li><span>Name</span><h4>{{ i.playlist_name }}</h4></li>
-                                        <li><span>Creation Date</span><h4>{{ i.create_date }}</h4></li>
-                                        <li><span>Songs</span><h4>{{ i.n_songs }}</h4></li>
-                                        <li><span>User</span><h4>{{ listener }}</h4></li>
-                                        <li>
-                                            <div class="main-border-button">
-                                                <a href="/user/playlist/{{ i.id }}">Preview</a>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
+                                    <div class="item">
+                                        <ul>
+                                            <li><img
+                                                    src="https://www.shareicon.net/data/512x512/2016/04/07/746120_logo_512x512.png"
+                                                    alt="" class="templatemo-item"></li>
+                                            <li><span>Name</span><h4>{{ i.playlist_name }}</h4></li>
+                                            <li><span>Creation Date</span><h4>{{ i.create_date }}</h4></li>
+                                            <li><span>Songs</span><h4>{{ i.n_songs }}</h4></li>
+                                            <li><span>User</span><h4>{{ listener }}</h4></li>
+                                            <li>
+                                                <div class="main-border-button">
+                                                    <a href="/user/playlist/{{ i.id }}">Preview</a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 {% endif %}
                             {% endfor %}
                             <div class="main-border-button">

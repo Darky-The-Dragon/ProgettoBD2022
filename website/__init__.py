@@ -15,6 +15,7 @@ def create_app():
     # we need to define where the roots are:
     from .views import views
     from .user import user
+    from .artist import artist
     from .auth import auth
     from .song import song
     from .album import album
@@ -23,12 +24,13 @@ def create_app():
     from .dashboard import dashboard
     from .add_song import add_song
     from .add_album import add_album
-    from.add_playlist import add_playlist
+    from .add_playlist import add_playlist
     from .searched import searched
 
     # We register the blueprint:
     app.register_blueprint(views, url_prefix='/')
     app.register_blueprint(user, url_prefix='/')
+    app.register_blueprint(artist, url_prefix='/')
     app.register_blueprint(auth, url_prefix='/')
     app.register_blueprint(song, url_prefix='/')
     app.register_blueprint(album, url_prefix='/')

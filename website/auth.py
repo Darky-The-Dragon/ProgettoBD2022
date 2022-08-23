@@ -129,6 +129,7 @@ def sign_up():
                 new_listener = Listener(id=new_user.id)
                 db.session.add(new_listener)
                 new_playlist = Playlist(id_listener=new_user.id, playlist_name="Favourite Songs", n_songs=0,
+                                        description="Favourite Songs",
                                         create_date=date.today())
                 db.session.add(new_playlist)
                 if is_premium == "yes":

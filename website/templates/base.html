@@ -43,8 +43,6 @@ This is the definition
         <div class="navbar-nav">
             {% if user.is_authenticated %}
                 <a class="nav-item nav-link" id="home" href="/home">Home</a>
-                <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
-                <a class="nav-link" is="user_profile" href="/user/profile/{{ current_user.id }}">Profile</a>
                 {% if user_type == 0 %}
                     <a class="nav-item nav-link" id="dash" href="/user/favourites">My Favourites</a>
                     <a class="nav-item nav-link" id="dash" href="/user/playlist">My Playlists</a>
@@ -52,12 +50,17 @@ This is the definition
                 {% if user_type == 1 %}
                     <a class="nav-item nav-link" id="dash" href="/user/dashboard">Dashboard</a>
                 {% endif %}
+                <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
             {% else %}
                 <a class="nav-item nav-link" id="login" href="/login">Login</a>
                 <a class="nav-item nav-link" id="signUp" href="/sign-up">Sign Up</a>
             {% endif %}
         </div>
     </div>
+    {% if user.is_authenticated %}
+        <a class="nav-link" is="user_profile" href="/user/profile/{{ current_user.id }}">Profile</a>
+    {% endif %}
+
 </nav>
 
 <!-- Code to show the flash messages. It's a loop that checks if there are any messages. It loops through them all

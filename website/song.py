@@ -8,7 +8,7 @@ song = Blueprint("song", __name__, static_folder='static', template_folder='temp
 
 @song.route('/song/<int:song_id>')
 @login_required
-def song_data(song_id):
+def song_info(song_id):
     this_song = Song.query.filter_by(id=song_id).first()
 
     if this_song is None:
