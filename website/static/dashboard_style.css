@@ -168,7 +168,6 @@ Profile Style
 .mb-3, .my-3 {
     margin-bottom: 1rem !important;
 }
-
 /*
 ---------------------------------------------
 Global Styles
@@ -181,7 +180,7 @@ body {
 }
 
 body .page-content {
-    margin-top: 110px;
+    margin-top: 10px;
     background-color: #27292a;
     padding: 60px;
     border-radius: 23px;

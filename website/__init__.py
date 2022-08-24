@@ -24,7 +24,7 @@ def create_app():
     from .dashboard import dashboard
     from .add_song import add_song
     from .add_album import add_album
-    from .add_playlist import add_playlist
+    from.add_playlist import add_playlist
     from .searched import searched
 
     # We register the blueprint:
