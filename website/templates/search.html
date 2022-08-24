@@ -18,11 +18,11 @@
                 {% endfor %}
                 <legend><span class="number"></span>Albums founded</legend>
                 {% for i in searched_2 %}
-                    <a href="{{ url_for('views.home') }}">{{ i.album_name }}</a></br>
+                    <a href="/user/album/{{ i.id }}"><h6 class="mb-0">{{ i.album_name }}</h6></a>
                 {% endfor %}
                 <legend><span class="number"></span>Songs founded</legend>
                 {% for i in searched_1 %}
-                    <a href="{{ url_for('views.home') }}">{{ i.title }}</a></br>
+                    <a href="/song/{{ i.id }}"><h6 class="mb-0">{{ i.title }}</h6></a>
                 {% endfor %}
             </divison>
         </fieldset>
