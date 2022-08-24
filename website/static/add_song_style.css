@@ -52,6 +52,16 @@ h2, h3, h4, h5, h6 {
     font-weight: 700;
 }
 
+a h6 {
+    color: #CCC;
+    text-decoration: none !important;
+}
+
+a h6:hover {
+    color: #3ac162;
+}
+
+
 p {
     font-size: 15px;
     line-height: 30px;
