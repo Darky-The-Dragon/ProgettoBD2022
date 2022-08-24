@@ -20,4 +20,4 @@ def artist_info(id_artist):
     songs = song_list(id_artist)
     n_songs = len(songs)
     return render_template("dashboard.html", user=current_user, user_type=user_type(current_user.id), artist=artist_data,
-                           artist_name=artist_name, albums=albums, n_album=n_album, n_songs=n_songs)
+                           artist_name=artist_name, albums=albums, n_album=n_album, songs=songs, n_songs=n_songs)

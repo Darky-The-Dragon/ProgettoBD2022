@@ -28,9 +28,15 @@
                                             <br/>
                                             <p>Check the artist that made this song by pressing on the button
                                                 bellow.</p>
-                                            <div class="main-border-button">
-                                                <a href="/artist/{{ artist_id }}">Discover Artist</a>
-                                            </div>
+                                            {% if user_type == 0 %}
+                                                <div class="main-border-button">
+                                                    <a href="/artist/{{ artist_id }}">Discover Artist</a>
+                                                </div>
+                                            {% elif user_type == 1 %}
+                                                <div class="main-border-button">
+                                                    <a href="/user/dashboard">Discover Artist</a>
+                                                </div>
+                                            {% endif %}
                                         </div>
                                     </div>
                                     <div class="col-lg-4 align-self-center">

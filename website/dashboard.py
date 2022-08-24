@@ -18,4 +18,4 @@ def dashboard_load():
     songs = song_list(current_user.id)
     n_songs = len(songs)
     return render_template("dashboard.html", user=current_user, user_type=user_type(current_user.id), artist=artist,
-                           albums=albums, n_album=n_album, n_songs=n_songs)
+                           albums=albums, n_album=n_album, songs=songs, n_songs=n_songs)
