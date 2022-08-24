@@ -19,7 +19,7 @@ def insert_album():
     if request.method == 'POST':
         album_name = request.form.get('Album_name')
         n_songs = request.form.get('n_songs')
-        album_c = (request.form.get('album_c'))
+        album_c = request.form.get('album_c')
 
         if album_c and album_c != "none":
             return redirect(url_for('add_song.insert_song_album', id_album=album_c))
@@ -37,7 +37,7 @@ def insert_album():
             flash('Number of songs must be a positive value', category='error')
         else:
             new_album = Album(id_artist=current_user.id, launch_date=date.today(),
-                              n_songs=n_songs, album_name=album_name)
+                              n_songs=n_songs, album_name=album_name, description='empty')
             db.session.add(new_album)
             db.session.commit()
             flash('Album created!', category='success')

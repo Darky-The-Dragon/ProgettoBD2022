@@ -41,6 +41,7 @@ def create_song():
     return render_template("add_song.html", user=current_user, user_type=user_type(current_user.id), album=None)
 
 
+
 @add_song.route('user/dashboard/add_song/<id_album>', methods=['GET', 'POST'])
 @login_required
 def insert_song_album(id_album):

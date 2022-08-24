@@ -3,6 +3,8 @@
 # This imports the database from init.py
 import operator
 
+from sqlalchemy import func
+
 from flask_login import UserMixin
 
 from . import db
@@ -193,6 +195,7 @@ def song_list(id_artist):
 
 def song_list_album(id_album, id_artist):
     values = db.session.query(Song).filter_by(id_artist=id_artist).join(songs_albums).filter_by(id_album=id_album).all()
+    print(values)
     return values
 
 
@@ -201,19 +204,23 @@ def song_list_playlist(id_playlist):
     return values
 
 
+
 def search_a_song(song_title):
     if song_title:
-        found = db.session.query(Song.id).filter(Song.title.contains(song_title)).all()
-        if operator.not_(found):
-            found = db.session.query(Song.id).all()
+            found = db.session.query(Song).all()
 
-        return found
+    return found
 
 
 def search_an_album(album_name):
     if album_name:
-        found = db.session.query(Album.id).filter(Album.album_name.contains(album_name)).all()
-        if operator.not_(found):
-            found = db.session.query(Album.id).all()
+        found = db.session.query(Album).filter(func.lower(Album.album_name).contains(func.lower(album_name))).all()
 
-        return found
+    return found
+
+
+def search_an_artist(artist_name):
+    if artist_name:
+        found = db.session.query(User).filter(func.lower(User.username).contains(func.lower(artist_name))).join(Artist).filter_by(id=Artist.id).all()
+
+    return found
