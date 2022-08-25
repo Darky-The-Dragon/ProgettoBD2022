@@ -1,11 +1,9 @@
 # This is where we create our database models
 # Let's make a database for our users
 # This imports the database from init.py
-import operator
-
-from sqlalchemy import func
 
 from flask_login import UserMixin
+from sqlalchemy import func
 
 from . import db
 
@@ -204,23 +202,22 @@ def song_list_playlist(id_playlist):
     return values
 
 
-
-def search_a_song(song_title):
-    if song_title:
-            found = db.session.query(Song).all()
-
+def search_a_song(search):
+    if search:
+        found = db.session.query(Song).filter(func.lower(Song.title).contains(func.lower(search))).all()
     return found
 
 
-def search_an_album(album_name):
-    if album_name:
-        found = db.session.query(Album).filter(func.lower(Album.album_name).contains(func.lower(album_name))).all()
-
+def search_an_album(search):
+    if search:
+        found = db.session.query(Album).filter(func.lower(Album.album_name).contains(func.lower(search))).all()
     return found
 
 
-def search_an_artist(artist_name):
-    if artist_name:
-        found = db.session.query(User).filter(func.lower(User.username).contains(func.lower(artist_name))).join(Artist).filter_by(id=Artist.id).all()
+def search_an_artist(search):
+    if search:
+        found = db.session.query(User).join(Artist, Artist.id == User.id).filter(
+            func.lower(User.username).contains(func.lower(search)))
 
-    return found
+        test = found.all()
+    return test

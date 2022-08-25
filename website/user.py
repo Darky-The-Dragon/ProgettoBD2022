@@ -20,10 +20,7 @@ def userprofile(user_id):
 
     membership = is_premium(user_id)
     months = get_months(current_user.id)
-    print(this_user)
-    print(user_type(current_user.id))
-    print(membership)
-    print(months)
+
     return render_template("profile.html", user=this_user, user_type=user_type(current_user.id), membership=membership,
                            months=months)
 

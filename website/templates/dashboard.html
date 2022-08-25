@@ -1,7 +1,8 @@
 <!-- This means that this template called "home" will be exactly the same as "base" and I can override anything from
 "base.html"-->
 <!-- this will override the block title -->
-{% extends "base.html" %} {% block title %}{% if user_type == 0 %}{{ artist_name }}{% else %}Dashboard{% endif %}{% endblock %}
+{% extends "base.html" %}
+{% block title %}{% if user_type == 0 %}{{ artist_name }}{% else %}Dashboard{% endif %}{% endblock %}
 
 <!-- I override the block content created in "base.html" -->
 
@@ -22,7 +23,7 @@
                                      alt="Admin"
                                      class="rounded-circle" width="150">
                                 <br/>
-                                {% if user_type==1 %}
+                                {% if user_type==1 and current_user.id == artist.id %}
                                     <div class="mt-3">
                                         <h4>Welcome back,</h4>
                                         <h2>{{ user.username }}</h2>
@@ -35,7 +36,7 @@
                 </div>
                 <div class="col-md-8">
                     <div class="card mb-3">
-                        {% if user_type == 0 %}
+                        {% if user_type == 0 or current_user.id != artist.id %}
                             <div class="card-body">
                                 <ul>
                                     <div class="row">
@@ -88,7 +89,7 @@
                                 </div>
                             </ul>
                         </div>
-                        {% if user_type == 1 %}
+                        {% if user_type == 1 and current_user.id == artist.id %}
                             <div class="card-body" align="center">
                                 <ul>
                                     <div class="button">
@@ -113,67 +114,94 @@
                 <div class="page-content">
                     <div class="gaming-library profile-library">
                         <div class="col-lg-12">
-                            {% if user_type == 0 %}
-                               <div class="heading-section">
-                                    <h4>This artist's albums:</h4>
-                                </div>
-                            {% elif user_type == 1 %}
-                                <div class="heading-section">
-                                    <h4>Your albums:</h4>
-                                </div>
+                            {% if user_type == 0 or current_user.id != artist.id %}
+                                {% if albums %}
+                                    <div class="heading-section">
+                                        <h4>This artist's albums:</h4>
+                                    </div>
+                                {% else %}
+                                    <div class="heading-section">
+                                        <h4>This artist doesn't have any albums.</h4>
+                                    </div>
+                                {% endif %}
+                            {% elif user_type == 1 and current_user.id == artist.id %}
+                                {% if albums %}
+                                    <div class="heading-section">
+                                        <h4>Your albums:</h4>
+                                    </div>
+                                {% else %}
+                                    <div class="heading-section">
+                                        <h4>You don't have any albums</h4>
+                                    </div>
+                                {% endif %}
                             {% endif %}
-                            <br>
-                            {% for i in albums %}
-                                <div class="item">
-                                    <ul>
-                                        <li><img
-                                                src="https://www.shareicon.net/data/512x512/2016/04/07/746120_logo_512x512.png"
-                                                alt="" class="templatemo-item"></li>
-                                        <li><span>Name</span><h4>{{ i.album_name }}</h4></li>
-                                        <li></li>
-                                        <li><span>Launch Date</span><h4>{{ i.launch_date }}</h4></li>
-                                        <li><span>Songs</span><h4>{{ i.n_songs }}</h4></li>
-                                        <li>
-                                            <div class="main-border-button">
-                                                <a href="/user/album/{{ i.id }}">Preview</a>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            {% endfor %}
+
+                            {% if albums %}
+                                {% for i in albums %}
+                                    <div class="item">
+                                        <ul>
+                                            <li><img
+                                                    src="https://www.shareicon.net/data/512x512/2016/04/07/746120_logo_512x512.png"
+                                                    alt="" class="templatemo-item"></li>
+                                            <li><span>Name</span><h4>{{ i.album_name }}</h4></li>
+                                            <li></li>
+                                            <li><span>Launch Date</span><h4>{{ i.launch_date }}</h4></li>
+                                            <li><span>Songs</span><h4>{{ i.n_songs }}</h4></li>
+                                            <li>
+                                                <div class="main-border-button">
+                                                    <a href="/album/{{ i.id }}">Preview</a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
                         </div>
                     </div>
 
                     <div class="gaming-library profile-library">
                         <div class="col-lg-12">
-                            {% if user_type == 0 %}
-                               <div class="heading-section">
-                                    <h4>This artist's songss:</h4>
-                                </div>
-                            {% elif user_type == 1 %}
-                                <div class="heading-section">
-                                    <h4>Your songs:</h4>
-                                </div>
+                            {% if user_type == 0 or current_user.id != artist.id %}
+                                {% if songs %}
+                                    <div class="heading-section">
+                                        <h4>This artist's songs:</h4>
+                                    </div>
+                                {% else %}
+                                    <div class="heading-section">
+                                        <h4>This artist doesn't have any songs.</h4>
+                                    </div>
+                                {% endif %}
+                            {% elif user_type == 1 and current_user.id == artist.id %}
+                                {% if songs %}
+                                    <div class="heading-section">
+                                        <h4>Your songs:</h4>
+                                    </div>
+                                {% else %}
+                                    <div class="heading-section">
+                                        <h4>Your don't have any songs</h4>
+                                    </div>
+                                {% endif %}
                             {% endif %}
-                            <br>
-                            {% for i in songs %}
-                                <div class="item">
-                                    <ul>
-                                        <li><img
-                                                src="https://www.shareicon.net/data/512x512/2016/04/07/746120_logo_512x512.png"
-                                                alt="" class="templatemo-item"></li>
-                                        <li><span>Name</span><h4>{{ i.title }}</h4></li>
-                                        <li><span>Launch Date</span><h4>{{ i.launch_date }}</h4></li>
-                                        <li><span>Duration</span><h4>{{ i.duration }}</h4></li>
-                                        <li><span>Replays</span><h4>{{ i.n_replays }}</h4></li>
-                                        <li>
-                                            <div class="main-border-button">
-                                                <a href="/song/{{ i.id }}">Preview</a>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            {% endfor %}
+                            {% if songs %}
+                                {% for i in songs %}
+                                    <div class="item">
+                                        <ul>
+                                            <li><img
+                                                    src="https://www.shareicon.net/data/512x512/2016/04/07/746120_logo_512x512.png"
+                                                    alt="" class="templatemo-item"></li>
+                                            <li><span>Name</span><h4>{{ i.title }}</h4></li>
+                                            <li><span>Launch Date</span><h4>{{ i.launch_date }}</h4></li>
+                                            <li><span>Duration</span><h4>{{ i.duration }}</h4></li>
+                                            <li><span>Replays</span><h4>{{ i.n_replays }}</h4></li>
+                                            <li>
+                                                <div class="main-border-button">
+                                                    <a href="/song/{{ i.id }}">Preview</a>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                {% endfor %}
+                            {% endif %}
                         </div>
                     </div>
                 </div>

@@ -17,7 +17,5 @@ def song_info(song_id):
     artist = Artist.query.filter_by(id=this_song.id_artist).first()
     artist_nickname = get_artist_name(artist.id)
 
-    print(user_type(current_user.id))
-
     return render_template("song_metadata.html", user=current_user, user_type=user_type(current_user.id),
                            song=this_song, artist=artist_nickname)

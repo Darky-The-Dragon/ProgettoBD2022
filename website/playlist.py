@@ -13,9 +13,9 @@ def playlist_data():
 
     listener = Listener.query.filter_by(id=current_user.id).first()
     listener_nickname = get_listener_name(listener.id)
-    print(playlists)
-    print(listener.id)
-    return render_template("playlist_list.html", user=current_user, user_type=user_type(current_user.id), playlists=playlists, listener=listener_nickname)
+
+    return render_template("playlist_list.html", user=current_user, user_type=user_type(current_user.id),
+                           playlists=playlists, listener=listener_nickname)
 
 
 @playlist.route('/user/playlist/<int:id_playlist>')
@@ -28,8 +28,7 @@ def playlist_info(id_playlist):
 
     listener = Listener.query.filter_by(id=this_playlist.id_listener).first()
     listener_nickname = get_listener_name(listener.id)
-    print(this_playlist.id)
-    print(listener.id)
     song_list = song_list_playlist(this_playlist.id)
-    print(song_list)
-    return render_template("playlist_metadata.html", user=current_user, user_type=user_type(current_user.id), playlist=this_playlist, listener=listener_nickname, songs=song_list)
+
+    return render_template("playlist_metadata.html", user=current_user, user_type=user_type(current_user.id),
+                           playlist=this_playlist, listener=listener_nickname, songs=song_list)
