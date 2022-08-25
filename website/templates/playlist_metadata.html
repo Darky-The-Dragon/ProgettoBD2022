@@ -12,7 +12,7 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="page-content">
-                    {% if playlist.playlist_name != "Favourite Songs" %}
+                    {% if playlist.playlist_name  %}
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="main-profile ">
@@ -69,7 +69,11 @@
                                         </li>
                                     </ul>
                                 </div>
-                            {% endfor %}
+                          {% endfor %}
+                            <div class="main-border-button">
+                                 <a href="user/playlist/add_song/{{ playlist.id }}">Add Song into this playlist</a>
+                            </div>
+
                         </div>
                     </div>
                 </div>
