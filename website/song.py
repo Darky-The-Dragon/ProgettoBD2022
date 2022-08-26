@@ -41,6 +41,14 @@ def add_favourite(id_song):
     return (''), 204
 
 
+@song.route('/play_song/<int:id_song>', methods=['GET', 'POST'])
+@login_required
+def play_song(id_song):
+    # CODE GOES HERE
+
+    return (''), 204
+
+
 @song.route('/remove_favourite/<int:id_song>', methods=['DELETE'])
 @login_required
 def remove_favourite(id_song):
@@ -50,10 +58,10 @@ def remove_favourite(id_song):
     songs_playlist.delete(id_song)
 
     # if entry:
-        # entry.remove()
+    # entry.remove()
     db.session.commit()
     flash('Song successfully removed your favourites!', category='success')
-    #else:
-       # flash('Song already removed!', category='error')
+    # else:
+    # flash('Song already removed!', category='error')
 
     return (''), 204

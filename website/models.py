@@ -221,5 +221,3 @@ def search_an_artist(search):
 
         test = found.all()
     return test
-
-
