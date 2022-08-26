@@ -1,5 +1,5 @@
 from datetime import date
-
+import operator
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import current_user, login_required
 
@@ -79,7 +79,25 @@ def insert_song_album(id_album):
                            songs=song_list)
 
 
-@add_song.route('user/playlist/add_song/<id_playlist>', methods=['GET', 'POST'])
+
+@add_song.route('user/playlist/add_song/<id_playlist>/<search>', methods=['GET', 'POST'])
 @login_required
-def insert_song_playlist(id_playlist):
-    return None
+def insert_song_playlist(id_playlist, search):
+    searched_1 = search_an_artist(search)
+    searched_2 = search_an_album(search)
+    searched_3 = search_a_song(search)
+
+    if request.method == 'POST':
+        id_song = request.form.get('song_id')
+
+        if db.session.query(songs_playlist).filter_by(id_playlist=id_playlist, id_song=id_song).first():
+              flash('Song already in playlist', category='error')
+        else:
+              new_song_playlist = songs_playlist.insert().values(id_song=id_song, id_playlist=id_playlist)
+              db.session.execute(new_song_playlist)
+              db.session.commit()
+              flash('Song added!', category='success')
+              return redirect(url_for('add_song.insert_song_playlist', id_playlist=id_playlist, search=search ))
+
+    return render_template("song_in_playlist.html", user=current_user, user_type=user_type(current_user.id), search=search,
+                           searched_1=searched_1, searched_2=searched_2, searched_3=searched_3)

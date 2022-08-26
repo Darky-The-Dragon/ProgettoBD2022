@@ -1,5 +1,5 @@
 from datetime import date
-
+import operator
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import current_user, login_required
 
@@ -22,7 +22,7 @@ def insert_playlist():
         playlist_c = (request.form.get('playlist_c'))
 
         if playlist_c and playlist_c != "none":
-            return redirect(url_for('add_song.insert_song_playlist', id_playlist=playlist_c))
+            return redirect(url_for('searched.search_song_playlist', id_playlist=playlist_c))
         elif Playlist.query.filter_by(playlist_name=playlist_name).first() is not None:
             flash('Playlist with such name already exists', category='error')
         elif operator.not_(playlist_name):

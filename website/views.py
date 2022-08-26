@@ -22,3 +22,4 @@ def home():
         return redirect(url_for('searched.searched_results', search=searched))
 
     return render_template("home.html", user=current_user, user_type=user_type(current_user.id))
+
