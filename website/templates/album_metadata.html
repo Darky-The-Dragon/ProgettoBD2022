@@ -71,6 +71,11 @@
                                                 <a href="/song/{{ i.id }}">Preview</a>
                                             </div>
                                         </li>
+                                        {% if user_type == 0 %}
+                                            <a href="?add_favourite_song={{ i.id }}">
+                                                <div class="favourite-button"></div>
+                                            </a>
+                                        {% endif %}
                                     </ul>
                                 </div>
                             {% endfor %}

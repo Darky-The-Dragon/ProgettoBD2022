@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request
 from flask_login import current_user, login_required
 
 from .models import *
@@ -6,10 +6,12 @@ from .models import *
 # The URL that our website has
 
 # Define of blueprint
+from .song import add_favourite
+
 artist = Blueprint('artist', __name__)
 
 
-@artist.route('/artist/<int:id_artist>')
+@artist.route('/artist/<int:id_artist>', methods=['GET'])
 @login_required
 def artist_info(id_artist):
     artist_data = get_artist_data(id_artist)
@@ -18,6 +20,11 @@ def artist_info(id_artist):
     n_album = len(albums)
     songs = song_list(id_artist)
     n_songs = len(songs)
+
+    add_favourite_song = request.args.get("add_favourite_song")
+    if add_favourite_song:
+        add_favourite(add_favourite_song)
+
     return render_template("dashboard.html", user=current_user, user_type=user_type(current_user.id),
                            artist=artist_data,
                            artist_name=artist_name, albums=albums, n_album=n_album, songs=songs, n_songs=n_songs)

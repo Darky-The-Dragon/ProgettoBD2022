@@ -1,7 +1,8 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request
 from flask_login import login_required, current_user
 
 from .models import Playlist, Listener, get_listener_name, song_list_playlist, playlist_list, user_type
+from .song import add_favourite
 
 playlist = Blueprint("playlist", __name__, static_folder='static', template_folder='templates')
 
@@ -18,13 +19,17 @@ def playlist_data():
                            playlists=playlists, listener=listener_nickname)
 
 
-@playlist.route('/user/playlist/<int:id_playlist>')
+@playlist.route('/user/playlist/<int:id_playlist>', methods=['GET'])
 @login_required
 def playlist_info(id_playlist):
     this_playlist = Playlist.query.filter_by(id=id_playlist).first()
 
     if this_playlist is None:
         return render_template("404.html")
+
+    add_favourite_song = request.args.get("add_favourite_song")
+    if add_favourite_song:
+        add_favourite(add_favourite_song)
 
     listener = Listener.query.filter_by(id=this_playlist.id_listener).first()
     listener_nickname = get_listener_name(listener.id)

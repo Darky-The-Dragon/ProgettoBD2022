@@ -67,6 +67,15 @@
                                                 <a href="/song/{{ i.id }}">Preview</a>
                                             </div>
                                         </li>
+                                        {% if playlist.playlist_name != "Favourite Songs" %}
+                                            <a href="?remove_playlist_song={{ i.id }}">
+                                                <div class="favourite-button"></div>
+                                            </a>
+                                        {% elif playlist.playlist_name == "Favourite Songs" %}
+                                            <a href="?remove_favourite_song={{ i.id }}">
+                                                <div class="favourite-button"></div>
+                                            </a>
+                                        {% endif %}
                                     </ul>
                                 </div>
                             {% endfor %}

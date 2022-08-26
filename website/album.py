@@ -1,18 +1,23 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request, flash
 from flask_login import login_required, current_user
 
 from .models import Album, Artist, get_artist_name, song_list_album, user_type
+from .song import add_favourite
 
 album = Blueprint("album", __name__, static_folder='static', template_folder='templates')
 
 
-@album.route('/album/<int:album_id>')
+@album.route('/album/<int:album_id>', methods=['GET'])
 @login_required
 def album_info(album_id):
     this_album = Album.query.filter_by(id=album_id).first()
 
     if this_album is None:
         return render_template("404.html")
+
+    add_favourite_song = request.args.get("add_favourite_song")
+    if add_favourite_song:
+        add_favourite(add_favourite_song)
 
     artist_data = Artist.query.filter_by(id=this_album.id_artist).first()
     artist_nickname = get_artist_name(artist_data.id)
