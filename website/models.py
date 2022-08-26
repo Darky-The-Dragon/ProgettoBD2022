@@ -3,7 +3,7 @@
 # This imports the database from init.py
 
 from flask_login import UserMixin
-from sqlalchemy import func
+from sqlalchemy import func, CheckConstraint
 
 from . import db
 
@@ -11,6 +11,7 @@ from . import db
 # Defining of table
 class User(db.Model, UserMixin):
     __tablename__ = "users"
+
     # Defining fields
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     # We can define the maximum length and say if it's unique or not
@@ -22,29 +23,29 @@ class User(db.Model, UserMixin):
     gender = db.Column(db.String(150), nullable=False)
     birth_date = db.Column(db.Date, nullable=False)
     # We need to specify the relationship
-    listener = db.relationship('Listener', back_populates='user', lazy=True)
-    artist = db.relationship('Artist', back_populates='user', lazy=True)
+    listener = db.relationship('Listener', back_populates='user', lazy=True, cascade='all,delete')
+    artist = db.relationship('Artist', back_populates='user', lazy=True, cascade='all,delete')
 
 
 class Listener(db.Model):
     __tablename__ = 'listeners'
-    id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True, nullable=False)
+    id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), primary_key=True, nullable=False)
     user = db.relationship('User', back_populates='listener', lazy=True)
-    non_premium = db.relationship('Non_Premium', back_populates='listener', lazy=True)
-    premium = db.relationship('Premium', back_populates='listener', lazy=True)
-    playlist = db.relationship('Playlist', back_populates='listener', lazy=True)
+    non_premium = db.relationship('Non_Premium', back_populates='listener', lazy=True, cascade='all,delete')
+    premium = db.relationship('Premium', back_populates='listener', lazy=True, cascade='all,delete')
+    playlist = db.relationship('Playlist', back_populates='listener', lazy=True, cascade='all,delete')
 
 
 class Non_Premium(db.Model):
     __tablename__ = 'non_premiums'
-    id = db.Column(db.Integer, db.ForeignKey('listeners.id'), primary_key=True, nullable=False)
+    id = db.Column(db.Integer, db.ForeignKey('listeners.id', ondelete='CASCADE'), primary_key=True, nullable=False)
     listener = db.relationship('Listener', back_populates='non_premium', lazy=True)
 
 
 class Premium(db.Model):
     __tablename__ = 'premiums'
 
-    id = db.Column(db.Integer, db.ForeignKey('listeners.id'), primary_key=True, nullable=False)
+    id = db.Column(db.Integer, db.ForeignKey('listeners.id', ondelete='CASCADE'), primary_key=True, nullable=False)
     reg_date = db.Column(db.Date, nullable=False)
     month_sub = db.Column(db.Integer, nullable=False)
 
@@ -54,24 +55,28 @@ class Premium(db.Model):
 class Artist(db.Model):
     __tablename__ = "artists"
 
-    id = db.Column(db.Integer, db.ForeignKey('users.id'), primary_key=True, nullable=False)
+    id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADES'), primary_key=True, nullable=False)
     n_songs = db.Column(db.Integer, nullable=False)  # Si potrebbe togliere e usare una query
     n_listeners = db.Column(db.Integer, nullable=False)
-    user = db.relationship('User', back_populates='artist', lazy=True)
-    album = db.relationship('Album', back_populates='artist', lazy=True)
-    song = db.relationship('Song', back_populates='artist', lazy=True)
+    user = db.relationship('User', back_populates='artist', lazy=True, cascade='all,delete')
+    album = db.relationship('Album', back_populates='artist', lazy=True, cascade='all,delete')
+    song = db.relationship('Song', back_populates='artist', lazy=True, cascade='all,delete')
 
 
 songs_playlist = db.Table('songs_playlists',
-                          db.Column('id_playlist', db.Integer, db.ForeignKey('playlists.id'), primary_key=True,
+                          db.Column('id_playlist', db.Integer, db.ForeignKey('playlists.id', onupdate='CASCADE'),
+                                    primary_key=True,
                                     nullable=False),
-                          db.Column('id_song', db.Integer, db.ForeignKey('songs.id'), primary_key=True, nullable=False),
+                          db.Column('id_song', db.Integer, db.ForeignKey('songs.id', onupdate='CASCADE'),
+                                    primary_key=True, nullable=False),
                           )
 
 songs_albums = db.Table('songs_albums',
-                        db.Column('id_album', db.Integer, db.ForeignKey('albums.id'), primary_key=True,
+                        db.Column('id_album', db.Integer, db.ForeignKey('albums.id', onupdate='CASCADE'),
+                                  primary_key=True,
                                   nullable=False),
-                        db.Column('id_song', db.Integer, db.ForeignKey('songs.id'), primary_key=True, nullable=False),
+                        db.Column('id_song', db.Integer, db.ForeignKey('songs.id', onupdate='CASCADE'),
+                                  primary_key=True, nullable=False),
                         )
 
 
@@ -79,41 +84,46 @@ class Playlist(db.Model):
     __tablename__ = "playlists"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
-    id_listener = db.Column(db.Integer, db.ForeignKey('listeners.id'), nullable=False)
+    id_listener = db.Column(db.Integer, db.ForeignKey('listeners.id', ondelete='CASCADE'), nullable=False)
     playlist_name = db.Column(db.String(150), nullable=False)
     n_songs = db.Column(db.Integer, nullable=False)  # Da togliere, si puo usare una query
     description = db.Column(db.String(500), nullable=False)
     create_date = db.Column(db.Date, nullable=False)
-    listener = db.relationship('Listener', back_populates='playlist', lazy=True)
-    song = db.relationship('Song', secondary=songs_playlist, back_populates='playlist', lazy=True)
+    listener = db.relationship('Listener', back_populates='playlist', lazy=True, cascade='all,delete')
+    song = db.relationship('Song', secondary=songs_playlist, back_populates='playlist', lazy=True,
+                           cascade='save-update')
 
 
 class Album(db.Model):
     __tablename__ = "albums"
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
-    id_artist = db.Column(db.Integer, db.ForeignKey('artists.id'), nullable=False)
+    id_artist = db.Column(db.Integer, db.ForeignKey('artists.id', ondelete='CASCADE'), nullable=False)
     album_name = db.Column(db.String(150), nullable=False)
     n_songs = db.Column(db.Integer, nullable=False)
     description = db.Column(db.String(500), nullable=False)
     launch_date = db.Column(db.Date, nullable=False)
-    artist = db.relationship('Artist', back_populates='album', lazy=True)
-    song = db.relationship('Song', secondary=songs_albums, back_populates='album', lazy=True)
+    artist = db.relationship('Artist', back_populates='album', lazy=True, cascade='all,delete')
+    song = db.relationship('Song', secondary=songs_albums, back_populates='album', lazy=True, cascade='save-update')
 
 
 class Song(db.Model):
     __tablename__ = "songs"
+    __table_args__ = (
+        CheckConstraint('exp_date > launch_date', name='check1'),
+    )
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
-    id_artist = db.Column(db.Integer, db.ForeignKey('artists.id'), nullable=False)
+    id_artist = db.Column(db.Integer, db.ForeignKey('artists.id', ondelete='CASCADE'), nullable=False)
     launch_date = db.Column(db.Date, nullable=False)
     exp_date = db.Column(db.Date, nullable=False)
     title = db.Column(db.String(150), nullable=False)
     duration = db.Column(db.Time, nullable=False)
     n_replays = db.Column(db.Integer, nullable=False)
-    artist = db.relationship('Artist', back_populates='song', lazy=True)
-    album = db.relationship('Album', secondary=songs_albums, back_populates='song', lazy=True)
-    playlist = db.relationship('Playlist', secondary=songs_playlist, back_populates='song', lazy=True)
+    artist = db.relationship('Artist', back_populates='song', lazy=True, cascade='all,delete')
+    album = db.relationship('Album', secondary=songs_albums, back_populates='song', lazy=True, cascade='save-update')
+    playlist = db.relationship('Playlist', secondary=songs_playlist, back_populates='song', lazy=True,
+                               cascade='save-update')
 
 
 # FUNCTIONS ----------------------------------------------------------------------------
@@ -222,4 +232,11 @@ def search_an_artist(search):
         test = found.all()
     return test
 
+
+def user_delete(user_id):
+    if user_id:
+        to_delete = db.session.query(User).filter_by(id=user_id).first()
+        if to_delete:
+            db.session.delete(to_delete)
+            db.session.commit()
 

@@ -4,7 +4,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from werkzeug.utils import redirect
 
 from . import db
-from .models import User, user_type, is_premium, get_months
+from .models import User, user_type, is_premium, get_months, user_delete
 
 user = Blueprint("user", __name__, static_folder='static', template_folder='templates')
 
@@ -64,3 +64,11 @@ def modify_password():
                 flash("An error occurred. Password couldn't be changed", category='error')
             return redirect(url_for('user.userprofile', user_id=current_user.id))
     return render_template('password_change.html', user=current_user)
+
+
+@user.route('user/delete_account/<int:user_id>')
+@login_required
+def delete_account(user_id):
+    user_delete(user_id)
+    flash("Account deleted", category='success')
+    return redirect(url_for('auth.login'))

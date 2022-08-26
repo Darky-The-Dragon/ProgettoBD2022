@@ -31,12 +31,16 @@ def create_song():
         elif operator.not_(ex_date):
             flash('Please, type the expiration date of your song', category='error')
         else:
-            new_song = Song(id_artist=current_user.id, launch_date=date.today(),
-                            exp_date=ex_date, title=title, duration=duration, n_replays=0)
-            db.session.add(new_song)
-            db.session.commit()
-            flash('Song added!', category='success')
-            return redirect(url_for('add_song.insert_song'))
+            try:
+                new_song = Song(id_artist=current_user.id, launch_date=date.today(),
+                                exp_date=ex_date, title=title, duration=duration, n_replays=0)
+                db.session.add(new_song)
+                db.session.commit()
+                flash('Song added!', category='success')
+            except:
+                db.session.rollback()
+                flash('Expiration date must be greater then current date', category='error')
+            return redirect(url_for('add_song.create_song'))
 
     return render_template("add_song.html", user=current_user, user_type=user_type(current_user.id), album=None)
 
@@ -65,19 +69,22 @@ def insert_song_album(id_album):
         elif operator.not_(ex_date):
             flash('Please, type the expiration date of your song', category='error')
         else:
-            new_song = Song(id_artist=current_user.id, launch_date=date.today(),
-                            exp_date=ex_date, title=title, duration=duration, n_replays=0)
-            db.session.add(new_song)
-            db.session.commit()
-            new_songs_album = songs_albums.insert().values(id_album=id_album, id_song=new_song.id)
-            db.session.execute(new_songs_album)
-            db.session.commit()
-            flash('Song added!', category='success')
+            try:
+                new_song = Song(id_artist=current_user.id, launch_date=date.today(),
+                                exp_date=ex_date, title=title, duration=duration, n_replays=0)
+                db.session.add(new_song)
+                db.session.commit()
+                new_songs_album = songs_albums.insert().values(id_album=id_album, id_song=new_song.id)
+                db.session.execute(new_songs_album)
+                db.session.commit()
+                flash('Song added!', category='success')
+            except:
+                db.session.rollback()
+                flash('Expiration date must be greater then current date', category='error')
             return redirect(url_for('add_song.insert_song_album', id_album=album.id))
 
     return render_template("add_song.html", user=current_user, user_type=user_type(current_user.id), album=album,
                            songs=song_list)
-
 
 
 @add_song.route('user/playlist/add_song/<id_playlist>/<search>', methods=['GET', 'POST'])
@@ -90,17 +97,18 @@ def insert_song_playlist(id_playlist, search):
         id_song = request.form.get('song_id')
 
         if db.session.query(songs_playlist).filter_by(id_playlist=id_playlist, id_song=id_song).first():
-              flash('Song already in playlist', category='error')
-              return redirect(url_for('add_song.insert_song_playlist', id_playlist=id_playlist,search=search))
+            flash('Song already in playlist', category='error')
+            return redirect(url_for('add_song.insert_song_playlist', id_playlist=id_playlist, search=search))
         else:
-              new_song_playlist = songs_playlist.insert().values(id_song=id_song, id_playlist=id_playlist)
-              db.session.execute(new_song_playlist)
-              db.session.commit()
-              flash('Song added!', category='success')
-              return redirect(url_for('add_song.insert_song_playlist', id_playlist=id_playlist,search=search))
+            new_song_playlist = songs_playlist.insert().values(id_song=id_song, id_playlist=id_playlist)
+            db.session.execute(new_song_playlist)
+            db.session.commit()
+            flash('Song added!', category='success')
+            return redirect(url_for('add_song.insert_song_playlist', id_playlist=id_playlist, search=search))
 
     if value:
-        return redirect(url_for('add_song.insert_song_playlist', id_playlist=id_playlist,search=value))
+        return redirect(url_for('add_song.insert_song_playlist', id_playlist=id_playlist, search=value))
 
-    return render_template("song_in_playlist.html", user=current_user, user_type=user_type(current_user.id), search=search,
-                            searched=searched)
+    return render_template("song_in_playlist.html", user=current_user, user_type=user_type(current_user.id),
+                           search=search,
+                           searched=searched)

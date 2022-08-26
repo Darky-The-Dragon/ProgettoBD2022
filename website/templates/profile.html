@@ -34,7 +34,9 @@
                                     {% elif user_type==2 %}
                                         <p>Admin</p>
                                     {% endif %}
-                                    <button class="btn_delete">Delete Account</button>
+                                    <div class="btn_delete">
+                                        <a href="/user/delete_account/{{ current_user.id }}" style="text-decoration: none">Delete Account</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
