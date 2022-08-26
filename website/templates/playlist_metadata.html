@@ -47,10 +47,17 @@
                                 </div>
                                 <br>
                             {% else %}
-                                <div class="heading-section">
-                                    <h4>Songs in your playlist:</h4>
-                                </div>
-                                <br>
+                                {% if songs %}
+                                    <div class="heading-section">
+                                        <h4>Songs in your playlist:</h4>
+                                    </div>
+                                    <br>
+                                {% else %}
+                                    <div class="heading-section">
+                                        <h4>There are no songs in this playlist</h4>
+                                    </div>
+                                    <br>
+                                {% endif %}
                             {% endif %}
                             {% for i in songs %}
                                 <div class="item">
@@ -79,10 +86,11 @@
                                     </ul>
                                 </div>
                           {% endfor %}
-                            <div class="main-border-button">
-                                 <a href="/user/playlist/add_song/{{ playlist.id }}">Add Song into this playlist</a>
-                            </div>
-
+                            {% if playlist.playlist_name != "Favourite Songs" %}
+                                <div class="main-border-button">
+                                     <a href="/user/playlist/add_song/{{ playlist.id }}">Add Song into this playlist</a>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
