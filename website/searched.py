@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template, request, url_for, redirect
 from flask_login import login_required, current_user
+
 from .models import *
+from .song import play_song
 
 searched = Blueprint('searched', __name__)
 
@@ -19,6 +21,10 @@ def searched_results(search):
 @login_required
 def search_song_playlist(id_playlist):
     searched = request.args.get('searched')
+
+    song = request.args.get("play_song")
+    if song:
+        play_song(song)
 
     if searched:
         return redirect(url_for('add_song.insert_song_playlist', search=searched, id_playlist=id_playlist))

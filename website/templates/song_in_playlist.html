@@ -1,7 +1,7 @@
 <!-- This means that this template called "home" will be exactly the same as "base" and I can override anything from
 "base.html"-->
 <!-- this will override the block title -->
-{% extends "base.html" %} {% block title %}Home{% endblock %}
+{% extends "base.html" %} {% block title %}Add Song to Playlist{% endblock %}
 
 <!-- I override the block content created in "base.html" -->
 
@@ -59,9 +59,11 @@
                                             <li>
                                                 <div class="main-border-button">
                                                     <a href="/song/{{ i.id }}">Preview</a>
-                                                        <form method="POST">
-                                                              <button name="song_id" type="submit" value="{{ i.id }}">Add In Playlist</button>
-                                                        </form>
+                                                    <form method="POST">
+                                                        <button name="song_id" type="submit" value="{{ i.id }}">Add In
+                                                            Playlist
+                                                        </button>
+                                                    </form>
                                                 </div>
                                             </li>
                                         </ul>

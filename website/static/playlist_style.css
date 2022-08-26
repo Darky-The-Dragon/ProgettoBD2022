@@ -158,9 +158,9 @@ p {
 
 .favourite-button {
     background-image: url(https://cdn0.iconfinder.com/data/icons/spotify-line-ui-kit/100/save-to-your-liked-songs-512.png);
-    background-position:center;
+    background-position: center;
     background-size: contain;
-    background-repeat:no-repeat;
+    background-repeat: no-repeat;
     background-color: transparent;
     display: inline-block;
     margin-left: -20px;
@@ -172,6 +172,20 @@ p {
 
 .favourite-button:hover {
     background-image: url(https://cdn0.iconfinder.com/data/icons/spotify-glyph-set/100/remove-from-your-liked-songs-fill-512.png);
+}
+
+.delete-button {
+    background-image: url(https://cdn.icon-icons.com/icons2/1769/PNG/512/4115230-cancel-close-cross-delete_114048.png);
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    display: inline-block;
+    margin-left: -20px;
+    padding: 20px;
+    border: none;
+    transition: all .3s;
+    overflow: hidden;
 }
 
 /*

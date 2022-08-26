@@ -102,9 +102,15 @@
                                 {% for i in searched_3 %}
                                     <div class="item">
                                         <ul>
-                                            <li><img
-                                                    src="https://www.shareicon.net/data/512x512/2016/04/07/746120_logo_512x512.png"
-                                                    alt="" class="templatemo-item"></li>
+                                            <li>
+                                                <a href="?play_song={{ i.id }}">
+                                                    <img
+                                                            src="https://www.shareicon.net/data/512x512/2016/04/07/746120_logo_512x512.png"
+                                                            onmouseover="this.src='https://cdn-icons-png.flaticon.com/512/17/17550.png'"
+                                                            onmouseout="this.src='https://www.shareicon.net/data/512x512/2016/04/07/746120_logo_512x512.png'"
+                                                            alt="" class="templatemo-item">
+                                                </a>
+                                            </li>
                                             <li><span>Song's Title</span><h4>{{ i.title }}</h4></li>
                                             <li></li>
                                             <li></li>

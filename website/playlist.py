@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request
 from flask_login import login_required, current_user
 
 from .models import Playlist, Listener, get_listener_name, song_list_playlist, playlist_list, user_type
-from .song import add_favourite
+from .song import add_favourite, play_song
 
 playlist = Blueprint("playlist", __name__, static_folder='static', template_folder='templates')
 
@@ -30,6 +30,10 @@ def playlist_info(id_playlist):
     add_favourite_song = request.args.get("add_favourite_song")
     if add_favourite_song:
         add_favourite(add_favourite_song)
+
+    song = request.args.get("play_song")
+    if song:
+        play_song(song)
 
     listener = Listener.query.filter_by(id=this_playlist.id_listener).first()
     listener_nickname = get_listener_name(listener.id)

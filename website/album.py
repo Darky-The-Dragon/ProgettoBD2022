@@ -1,8 +1,8 @@
-from flask import Blueprint, render_template, request, flash
+from flask import Blueprint, render_template, request
 from flask_login import login_required, current_user
 
 from .models import Album, Artist, get_artist_name, song_list_album, user_type
-from .song import add_favourite
+from .song import add_favourite, play_song
 
 album = Blueprint("album", __name__, static_folder='static', template_folder='templates')
 
@@ -18,6 +18,10 @@ def album_info(album_id):
     add_favourite_song = request.args.get("add_favourite_song")
     if add_favourite_song:
         add_favourite(add_favourite_song)
+
+    song = request.args.get("play_song")
+    if song:
+        play_song(song)
 
     artist_data = Artist.query.filter_by(id=this_album.id_artist).first()
     artist_nickname = get_artist_name(artist_data.id)

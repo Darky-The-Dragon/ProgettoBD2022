@@ -11,7 +11,6 @@ from . import db
 # Defining of table
 class User(db.Model, UserMixin):
     __tablename__ = "users"
-
     # Defining fields
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     # We can define the maximum length and say if it's unique or not

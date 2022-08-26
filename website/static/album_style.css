@@ -157,9 +157,9 @@ p {
 
 .favourite-button {
     background-image: url(https://cdn0.iconfinder.com/data/icons/spotify-line-ui-kit/100/save-to-your-liked-songs-512.png);
-    background-position:center;
+    background-position: center;
     background-size: contain;
-    background-repeat:no-repeat;
+    background-repeat: no-repeat;
     background-color: transparent;
     display: inline-block;
     margin-left: -20px;
