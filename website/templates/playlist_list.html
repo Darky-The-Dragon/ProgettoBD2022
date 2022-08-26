@@ -28,6 +28,11 @@
                                             <li><span>Creation Date</span><h4>{{ i.create_date }}</h4></li>
                                             <li><span>Songs</span><h4>{{ i.n_songs }}</h4></li>
                                             <li><span>User</span><h4>{{ listener }}</h4></li>
+                                            <li>
+                                                <div class="main-border-button">
+                                                    <a href="/user/playlist/{{ i.id }}">Preview</a>
+                                                </div>
+                                            </li>
                                         </ul>
                                     </div>
                                 {% endif %}
