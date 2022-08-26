@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request
 from flask_login import login_required, current_user
 
 from .models import Playlist, Listener, get_listener_name, song_list_playlist, user_type
-from .song import remove_favourite
+from .song import remove_from_playlist
 
 favourites = Blueprint("favourites", __name__, static_folder='static', template_folder='templates')
 
@@ -20,9 +20,9 @@ def favourites_data():
     listener_nickname = get_listener_name(listener.id)
     song_list = song_list_playlist(this_favourites.id)
 
-    remove_favourite_song = request.args.get("remove_favourite_song")
-    if remove_favourite_song:
-        remove_favourite(remove_favourite_song)
+    favourite_song = request.args.get("remove_favourite_song")
+    if favourite_song:
+        remove_from_playlist(favourite_song)
 
     return render_template("playlist_metadata.html", user=current_user, user_type=user_type(current_user.id),
                            playlist=this_favourites, listener=listener_nickname,
