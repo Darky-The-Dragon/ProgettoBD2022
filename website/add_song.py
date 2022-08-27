@@ -20,7 +20,6 @@ def create_song():
     title = request.form.get('sname')
     duration = request.form.get('duration')
     ex_date = request.form.get('ex_date')
-    album = album_list(current_user.id)
 
     song = Song.query.filter_by(title=title).first()
     if request.method == 'POST':
@@ -32,8 +31,6 @@ def create_song():
             flash('Please, type the duration of your song', category='error')
         elif operator.not_(ex_date):
             flash('Please, type the expiration date of your song', category='error')
-        elif put_in == "none":
-            flash('Select an option.', category='error')
         else:
             try:
                 new_song = Song(id_artist=current_user.id, launch_date=date.today(),
@@ -46,21 +43,36 @@ def create_song():
                 flash('Expiration date must be greater then current date', category='error')
             return redirect(url_for('add_song.create_song'))
 
-    return render_template("choose_an_album.html", user=current_user, user_type=user_type(current_user.id), album=album)
+    return render_template("add_song.html", user=current_user, user_type=user_type(current_user.id), album=None)
 
 
 @add_song.route('user/dashboard/add_song/<id_album>', methods=['GET', 'POST'])
 @login_required
 def insert_song_album(id_album):
     album = Album.query.filter_by(id=id_album).first()  # per avere tutti i valori della tupla
+    song_id = request.form.get('song_id')
+    all_songs = song_list(current_user.id)
 
     if album is None:
         return render_template("404.html", user=current_user, user_type=user_type(current_user.id))
 
-    song_list = song_list_album(id_album, current_user.id)
-    title = request.form.get('sname')
-    duration = request.form.get('duration')
-    ex_date = request.form.get('ex_date')
+    song_list_= song_list_album(id_album, current_user.id)
+    title = request.form.get('sname_')
+    duration = request.form.get('duration_')
+    ex_date = request.form.get('ex_date_')
+
+
+    if song_id:
+        val = db.session.query(Song).join(songs_albums).filter_by(id_album=id_album, id_song=song_id).all()
+        if val:
+            flash('Song already in this album', category='error')
+            return redirect(url_for('add_song.insert_song_album', id_album=album.id))
+        else:
+            new_songs_album = songs_albums.insert().values(id_album=id_album, id_song=song_id)
+            db.session.execute(new_songs_album)
+            db.session.commit()
+            flash('Song added!', category='success')
+            return redirect(url_for('add_song.insert_song_album', id_album=album.id))
 
     song = Song.query.filter_by(title=title).first()
     if request.method == 'POST':
@@ -88,7 +100,7 @@ def insert_song_album(id_album):
             return redirect(url_for('add_song.insert_song_album', id_album=album.id))
 
     return render_template("add_song.html", user=current_user, user_type=user_type(current_user.id), album=album,
-                           songs=song_list)
+                           songs=song_list_, all_songs=all_songs)
 
 
 @add_song.route('user/playlist/add_song/<id_playlist>/<search>', methods=['GET', 'POST'])
