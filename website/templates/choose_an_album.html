@@ -9,28 +9,6 @@
     <!--Carica il css del login da ./static-->
     <link rel="stylesheet" href="{{ url_for('static', filename='add_song_style.css') }}">
     <body>
-    {% if album!=None %}
-        <form method="POST">
-            <fieldset>
-                <legend><span class="number">O</span> Album Name:</legend>
-                <h1>{{ album.album_name }}</h1>
-                {% if songs %}
-                    <legend><span class="number"></span> Songs List:</legend>
-                    </br>
-                    {% for i in songs %}
-                        <ul>
-                            <div class="row">
-                                <div class="col-sm-9">
-                                    <a href="/song/{{ i.id }}"><h6 class="mb-0">{{ i.title }}</h6></a>
-                                </div>
-                            </div>
-                            <hr>
-                        </ul>
-                    {% endfor %}
-                {% endif %}
-            </fieldset>
-        </form>
-    {% endif %}
     <form method="POST">
         <div class="form-group" id="add_song">
             <legend><span class="number">1</span> Add a song</legend>
@@ -67,7 +45,30 @@
                         placeholder="Enter "
                 />
             </div>
-            <button type="submit" class="btn btn-primary">Add Song</button>
+
+            {% if album != None %}
+
+                <div class="form-group">
+                    <label for="put_in">Do you want to put this song on an album?</label>
+                    <select class="fadeIn second" name="put_in" id="put_in">
+                        <option value="none">None</option>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                        </select>
+                </div>
+
+                <div class="form-group" id="PutInAlbum">
+                    <div class="form-group">
+                       <label for="album_id">Select an album:</label>
+                       <select class="fadeIn second" name="album_id" id="album_id">
+                           {% for i in album %}
+                                <option value="{{ i.id }}">{{ i.album_name }}</option>
+                           {% endfor %}
+                    </select>
+                   </div>
+                </div>
+            {% endif %}
+                              <button type="submit" class="btn btn-primary">Add Song</button>
         </div>
     </form>
 
@@ -81,6 +82,5 @@
             </div>
         </div>
     </footer>
-
     </body>
 {% endblock %}

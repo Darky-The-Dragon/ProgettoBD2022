@@ -20,6 +20,7 @@ def create_song():
     title = request.form.get('sname')
     duration = request.form.get('duration')
     ex_date = request.form.get('ex_date')
+    album = album_list(current_user.id)
 
     song = Song.query.filter_by(title=title).first()
     if request.method == 'POST':
@@ -31,10 +32,12 @@ def create_song():
             flash('Please, type the duration of your song', category='error')
         elif operator.not_(ex_date):
             flash('Please, type the expiration date of your song', category='error')
+        elif put_in == "none":
+            flash('Select an option.', category='error')
         else:
             try:
                 new_song = Song(id_artist=current_user.id, launch_date=date.today(),
-                                exp_date=ex_date, title=title, duration=duration, n_replays=0)
+                                    exp_date=ex_date, title=title, duration=duration, n_replays=0)
                 db.session.add(new_song)
                 db.session.commit()
                 flash('Song added!', category='success')
@@ -43,7 +46,7 @@ def create_song():
                 flash('Expiration date must be greater then current date', category='error')
             return redirect(url_for('add_song.create_song'))
 
-    return render_template("add_song.html", user=current_user, user_type=user_type(current_user.id), album=None)
+    return render_template("choose_an_album.html", user=current_user, user_type=user_type(current_user.id), album=album)
 
 
 @add_song.route('user/dashboard/add_song/<id_album>', methods=['GET', 'POST'])
@@ -113,3 +116,4 @@ def insert_song_playlist(id_playlist, search):
     return render_template("song_in_playlist.html", user=current_user, user_type=user_type(current_user.id),
                            search=search,
                            searched=searched)
+

@@ -54,7 +54,7 @@ class Premium(db.Model):
 class Artist(db.Model):
     __tablename__ = "artists"
 
-    id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADES'), primary_key=True, nullable=False)
+    id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), primary_key=True, nullable=False)
     n_songs = db.Column(db.Integer, nullable=False)  # Si potrebbe togliere e usare una query
     n_listeners = db.Column(db.Integer, nullable=False)
     user = db.relationship('User', back_populates='artist', lazy=True, cascade='all,delete')

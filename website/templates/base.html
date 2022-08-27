@@ -45,10 +45,10 @@ This is the definition
                 <a class="nav-item nav-link" id="home" href="/home">Home</a>
                 {% if user_type == 0 %}
                     <a class="nav-item nav-link" id="dash" href="/user/favourites">My Favourites</a>
-                    <a class="nav-item nav-link" id="dash" href="/user/playlist">My Playlists</a>
+                    <a class="nav-item nav-link" id="dash1" href="/user/playlist">My Playlists</a>
                 {% endif %}
                 {% if user_type == 1 %}
-                    <a class="nav-item nav-link" id="dash" href="/user/dashboard">Dashboard</a>
+                    <a class="nav-item nav-link" id="dash2" href="/user/dashboard">Dashboard</a>
                 {% endif %}
                 <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
             {% else %}
@@ -121,6 +121,10 @@ then it will display a success message -->
 <script
         type="text/javascript"
         src="{{ url_for('static', filename = 'form.js') }}"
+></script>
+<script
+        type="text/javascript"
+        src="{{ url_for('static', filename = 'disco.js') }}"
 ></script>
 </body>
 </html>
