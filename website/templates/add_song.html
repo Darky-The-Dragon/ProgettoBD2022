@@ -31,6 +31,7 @@
             </fieldset>
         </form>
         <form method="POST">
+        <br/>
         <div class="form-group">
                     <label for="put_in">Do you want to put a song that already exist?</label>
                     <select class="fadeIn second" name="put_in" id="put_in">
@@ -51,9 +52,10 @@
                    </div>
                     <button type="submit" class="btn btn-primary">Add Song</button>
                 </div>
-        </form>>
-        <form method="POST">
-        <div class="form-group" id="add_song_">
+        </form>
+        <form method="POST" id="add_song_">
+        <br/>
+        <div class="form-group">
             <legend><span class="number">1</span> Add a song</legend>
             <br/>
             <div class="form-group">
@@ -94,6 +96,7 @@
     {% endif %}
     {% if album == None %}
     <form method="POST">
+        <br/>
         <div class="form-group" id="add_song">
             <legend><span class="number">1</span> Add a song</legend>
             <br/>
