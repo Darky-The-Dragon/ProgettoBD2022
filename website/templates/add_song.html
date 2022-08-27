@@ -30,9 +30,71 @@
                 {% endif %}
             </fieldset>
         </form>
+        <form method="POST">
+        <div class="form-group">
+                    <label for="put_in">Do you want to put a song that already exist?</label>
+                    <select class="fadeIn second" name="put_in" id="put_in">
+                        <option value="none">None</option>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                        </select>
+                </div>
+
+                <div class="form-group" id="PutInAlbum">
+                    <div class="form-group">
+                       <label for="song_id">Select a song:</label>
+                       <select class="fadeIn second" name="song_id" id="song_id">
+                           {% for i in all_songs %}
+                                <option value="{{ i.id }}">{{ i.title }}</option>
+                           {% endfor %}
+                    </select>
+                   </div>
+                    <button type="submit" class="btn btn-primary">Add Song</button>
+                </div>
+        </form>>
+        <form method="POST">
+        <div class="form-group" id="add_song_">
+            <legend><span class="number">1</span> Add a song</legend>
+            <br/>
+            <div class="form-group">
+                <label for="sname_">Song's title</label>
+                <input
+                        type="text"
+                        class="form-control"
+                        id="sname_"
+                        name="sname_"
+                        placeholder="Enter your song's title"
+                />
+            </div>
+
+            <div class="form-group">
+                <label for="duration_">Song's duration</label>
+                <input
+                        type="time"
+                        class="form-control"
+                        id="duration_"
+                        name="duration_"
+                        placeholder="Enter expiration date"
+                />
+            </div>
+
+            <div class="form-group">
+                <label for="ex_date_">How long do you want to make the song available?</label>
+                <input
+                        type="date"
+                        class="form-control"
+                        id="ex_date_"
+                        name="ex_date_"
+                        placeholder="Enter "
+                />
+            </div>
+            <button type="submit" class="btn btn-primary">Add Song</button>
+        </div>
+    </form>
     {% endif %}
+    {% if album == None %}
     <form method="POST">
-        <fieldset>
+        <div class="form-group" id="add_song">
             <legend><span class="number">1</span> Add a song</legend>
             <br/>
             <div class="form-group">
@@ -68,8 +130,9 @@
                 />
             </div>
             <button type="submit" class="btn btn-primary">Add Song</button>
-        </fieldset>
+        </div>
     </form>
+    {% endif %}
 
     <footer>
         <div class="container">
