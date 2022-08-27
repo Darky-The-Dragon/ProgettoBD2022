@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, flash
 from flask_login import login_required, current_user
+from sqlalchemy import select
 
 from .models import db, Artist, Playlist, Song, get_artist_name, user_type, songs_playlist
 
@@ -54,11 +55,13 @@ def play_song(id_song):
 def remove_favourite(id_song):
     print("IT DELETED?")
     playlist = Playlist.query.filter_by(id_listener=current_user.id, playlist_name="Favourite Songs").first()
-    entry = Playlist.query.filter_by(id=playlist.id).join(songs_playlist).filter_by(id_song=id_song).first()
-    songs_playlist.delete(id_song)
-
+    # entry = Playlist.query.filter_by(id=playlist.id).join(songs_playlist).filter_by(id_song=id_song).first()
+    # to_delete = songs_playlist.query.filter_by(id_song=id_song, id_playlist=playlist.id).first()
+    #to_delete = select([songs_playlist]).where(songs_playlist.c.id_song == id_song, songs_playlist.c.id_playlist == playlist.id)
+    to_delete = songs_playlist.delete().where(songs_playlist.c.id_song == id_song, songs_playlist.c.id_playlist == playlist.id)
     # if entry:
     # entry.remove()
+    db.session.execute(to_delete)
     db.session.commit()
     flash('Song successfully removed your favourites!', category='success')
     # else:

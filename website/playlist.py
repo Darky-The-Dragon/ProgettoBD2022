@@ -27,9 +27,9 @@ def playlist_info(id_playlist):
     if this_playlist is None:
         return render_template("404.html")
 
-    add_favourite_song = request.args.get("add_favourite_song")
-    if add_favourite_song:
-        add_favourite(add_favourite_song)
+    playlist_song = request.args.get("remove_playlist_song")
+    if playlist_song:
+        add_favourite(playlist_song)
 
     song = request.args.get("play_song")
     if song:
