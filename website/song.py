@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, flash
 from flask_login import login_required, current_user
-from sqlalchemy import select
+from sqlalchemy import select, update
 
 from .models import db, Artist, Playlist, Song, get_artist_name, user_type, songs_playlist
 
@@ -56,7 +56,7 @@ def play_song(id_song):
 
 @song.route('/remove_favourite/<int:id_song>', methods=['DELETE'])
 @login_required
-def remove_favourite(id_song):
+def remove_from_playlist(id_song):
     print("IT DELETED?")
     playlist = Playlist.query.filter_by(id_listener=current_user.id, playlist_name="Favourite Songs").first()
     # entry = Playlist.query.filter_by(id=playlist.id).join(songs_playlist).filter_by(id_song=id_song).first()

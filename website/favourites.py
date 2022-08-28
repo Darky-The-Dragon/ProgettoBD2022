@@ -1,10 +1,10 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, flash
 from flask_login import login_required, current_user
 from sqlalchemy import update
 
 from . import db
 from .models import Playlist, Listener, get_listener_name, song_list_playlist, user_type, favourites_artist, Artist
-from .song import remove_favourite
+from .song import remove_from_playlist
 
 favourites = Blueprint("favourites", __name__, static_folder='static', template_folder='templates')
 
@@ -31,17 +31,19 @@ def favourites_data():
                            songs=song_list)
 
 
-@favourites.route('/user/favourites/<id_artist>')
+@favourites.route('/user/favourites/<id_artist>', methods=['GET', 'POST'])
 def add_favourite_artist(id_artist):
     listener_artist = favourites_artist.query.filter_by(id_artist=id_artist, id_listener=current_user.id).first()
     if listener_artist:
         db.session.execute(update(Artist).where(Artist.id == id_artist).values(n_listeners=Artist.n_listeners-1))
         db.session.delete(listener_artist)
         db.session.commit()
+        flash('Artist deleted from followed', category='success')
 
     else:
         new_favourite = favourites_artist(id_artist=id_artist, id_listener=current_user.id)
         db.session.execute(update(Artist).where(Artist.id == id_artist).values(n_listeners=Artist.n_listeners + 1))
         db.session.add(new_favourite)
         db.session.commit()
+        flash('Artist added to followed', category='success')
 
