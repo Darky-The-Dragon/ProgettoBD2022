@@ -46,6 +46,10 @@ def add_favourite(id_song):
 @login_required
 def play_song(id_song):
     # CODE GOES HERE
+    # n_replays = db.Column(db.Integer, nullable=False)
+    stmt = update(Song).where(Song.id==id_song).values(n_replays=Song.n_replays+1)
+    db.session.execute(stmt)
+    db.session.commit()
 
     return (''), 204
 
