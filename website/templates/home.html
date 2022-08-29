@@ -25,6 +25,30 @@
             </div>
         </div>
     </div>
+    {% for i in recommended %}
+    <div class="item">
+      <ul>
+        <li>
+          <a href="?play_song={{ i.id }}">
+           <img
+               src="https://www.shareicon.net/data/512x512/2016/04/07/746120_logo_512x512.png"
+               onmouseover="this.src='https://cdn-icons-png.flaticon.com/512/17/17550.png'"
+               onmouseout="this.src='https://www.shareicon.net/data/512x512/2016/04/07/746120_logo_512x512.png'"
+               alt="" class="templatemo-item">
+          </a>
+         </li>
+         <li><span>Name</span><h4>{{ i.title }}</h4></li>
+         <li><span>Launch Date</span><h4>{{ i.launch_date }}</h4></li>
+         <li><span>Duration</span><h4>{{ i.duration }}</h4></li>
+         <li><span>Replays</span><h4>{{ i.n_replays }}</h4></li>
+         <li>
+             <div class="main-border-button">
+                <a href="/song/{{ i.id }}">Preview</a>
+             </div>
+        </li>
+    </ul>
+    </div>
+    {% endfor %}
     <footer>
         <div class="container">
             <div class="row">

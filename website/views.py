@@ -3,7 +3,7 @@
 from flask import Blueprint, render_template, request, url_for, redirect
 from flask_login import login_required, current_user
 
-from .models import user_type
+from .models import *
 
 # The URL that our website has
 
@@ -17,7 +17,7 @@ views = Blueprint('views', __name__)
 @login_required
 def home():
     searched = request.args.get('searched')
-
+    recommended = recom(current_user.id)
 
     if searched:
         return redirect(url_for('searched.searched_results', search=searched))
