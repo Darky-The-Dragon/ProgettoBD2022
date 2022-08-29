@@ -24,9 +24,12 @@
                                      class="rounded-circle" width="150">
                                 <br/>
                                 {% if user_type == 0 %}
-                                     <div class="main-border-button">
-                                          <a href="/song/">Add To Favourite</a>
-                                     </div>
+                                    <div class="main-border-button">
+                                          <a href="?add_favourite_artist={{artist.id}}">Add To Favourite</a>
+                                    </div>
+                                    <div class="main-border-button">
+                                          <a href="?remove_favourite_artist={{artist.id}}">Remove To Favourite</a>
+                                    </div>
                                 {% endif %}
                                 {% if user_type==1 and current_user.id == artist.id %}
                                     <div class="mt-3">
