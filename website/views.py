@@ -17,9 +17,9 @@ views = Blueprint('views', __name__)
 @login_required
 def home():
     searched = request.args.get('searched')
-    recommended = db.session.query(Song).join(songs_albums).all()
+    recommended = recom(current_user.id)
 
     if searched:
         return redirect(url_for('searched.searched_results', search=searched))
 
-    return render_template("home.html", user=current_user, user_type=user_type(current_user.id), recommended=recommended)
+    return render_template("home.html", user=current_user, user_type=user_type(current_user.id))
