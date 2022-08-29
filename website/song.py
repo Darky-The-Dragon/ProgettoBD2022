@@ -1,8 +1,10 @@
-from flask import Blueprint, render_template, flash
+from flask import Blueprint, render_template, flash, url_for
 from flask_login import login_required, current_user
 from sqlalchemy import select, update
+from werkzeug.utils import redirect
 
-from .models import db, Artist, Playlist, Song, get_artist_name, user_type, songs_playlist
+from .models import db, Artist, Playlist, Song, get_artist_name, user_type, songs_playlist, get_listener_name, Listener, \
+    song_list_playlist
 
 song = Blueprint("song", __name__, static_folder='static', template_folder='templates')
 
@@ -47,27 +49,38 @@ def add_favourite(id_song):
 def play_song(id_song):
     # CODE GOES HERE
     # n_replays = db.Column(db.Integer, nullable=False)
-    stmt = update(Song).where(Song.id==id_song).values(n_replays=Song.n_replays+1)
+    stmt = update(Song).where(Song.id == id_song).values(n_replays=Song.n_replays + 1)
     db.session.execute(stmt)
     db.session.commit()
 
     return (''), 204
 
 
+# TODO da fixare
 @song.route('/remove_favourite/<int:id_song>', methods=['DELETE'])
 @login_required
 def remove_from_playlist(id_song):
     print("IT DELETED?")
     playlist = Playlist.query.filter_by(id_listener=current_user.id, playlist_name="Favourite Songs").first()
-    # entry = Playlist.query.filter_by(id=playlist.id).join(songs_playlist).filter_by(id_song=id_song).first()
-    # to_delete = songs_playlist.query.filter_by(id_song=id_song, id_playlist=playlist.id).first()
-    #to_delete = select([songs_playlist]).where(songs_playlist.c.id_song == id_song, songs_playlist.c.id_playlist == playlist.id)
-    to_delete = songs_playlist.delete().where(songs_playlist.c.id_song == id_song, songs_playlist.c.id_playlist == playlist.id)
-    # if entry:
-    # entry.remove()
-    db.session.execute(to_delete)
-    db.session.commit()
-    flash('Song successfully removed your favourites!', category='success')
+    if playlist:
+        to_delete = songs_playlist.delete().where(songs_playlist.c.id_song == id_song,
+                                                  songs_playlist.c.id_playlist == playlist.id)
+        # if entry:
+        # entry.remove()
+        db.session.execute(to_delete)
+        db.session.commit()
+        flash('Song successfully removed your favourites!', category='success')
+        this_favourites = Playlist.query.filter_by(id_listener=current_user.id).filter(
+            Playlist.playlist_name.contains("Favourite Songs")).first()
+        if this_favourites is None:
+            return render_template("404.html")
+        listener = Listener.query.filter_by(id=this_favourites.id_listener).first()
+        listener_nickname = get_listener_name(listener.id)
+        song_list = song_list_playlist(this_favourites.id)
+        return render_template("playlist_metadata.html", user=current_user, user_type=user_type(current_user.id),
+                               playlist=this_favourites, listener=listener_nickname,
+                               songs=song_list)
+
     # else:
     # flash('Song already removed!', category='error')
 

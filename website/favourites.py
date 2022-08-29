@@ -31,6 +31,8 @@ def favourites_data():
                            songs=song_list)
 
 
+
+#TODO non ancora testata, manca da implemetare il bottone in html
 @favourites.route('/user/favourites/<id_artist>', methods=['GET', 'POST'])
 def add_favourite_artist(id_artist):
     listener_artist = favourites_artist.query.filter_by(id_artist=id_artist, id_listener=current_user.id).first()
