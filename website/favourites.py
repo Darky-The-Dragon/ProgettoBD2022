@@ -4,7 +4,7 @@ from sqlalchemy import update
 
 from . import db
 from .models import Playlist, Listener, get_listener_name, song_list_playlist, user_type, favourites_artist, Artist
-from .song import remove_from_playlist
+from .song import remove_from_playlist, play_song
 
 favourites = Blueprint("favourites", __name__, static_folder='static', template_folder='templates')
 
@@ -18,6 +18,10 @@ def favourites_data():
     if this_favourites is None:
         return render_template("404.html")
 
+    song = request.args.get("play_song")
+    if song:
+        play_song(song)
+
     listener = Listener.query.filter_by(id=this_favourites.id_listener).first()
     listener_nickname = get_listener_name(listener.id)
     song_list = song_list_playlist(this_favourites.id)
@@ -25,6 +29,9 @@ def favourites_data():
     favourite_song = request.args.get("remove_favourite_song")
     if favourite_song:
         remove_from_playlist(favourite_song)
+        listener = Listener.query.filter_by(id=this_favourites.id_listener).first()
+        listener_nickname = get_listener_name(listener.id)
+        song_list = song_list_playlist(this_favourites.id)
 
     return render_template("playlist_metadata.html", user=current_user, user_type=user_type(current_user.id),
                            playlist=this_favourites, listener=listener_nickname,
