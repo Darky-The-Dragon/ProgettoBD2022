@@ -56,23 +56,34 @@ def play_song(id_song):
     return (''), 204
 
 
-# TODO da fixare
-@song.route('/remove_favourite/<int:id_song>', methods=['DELETE'])
+@song.route('/remove_from_favourite/<int:id_song>', methods=['DELETE'])
 @login_required
-def remove_from_playlist(id_song):
-    print("IT DELETED?")
+def remove_from_favourites(id_song):
     playlist = Playlist.query.filter_by(id_listener=current_user.id, playlist_name="Favourite Songs").first()
     if playlist:
         to_delete = songs_playlist.delete().where(songs_playlist.c.id_song == id_song,
                                                   songs_playlist.c.id_playlist == playlist.id)
-        # if entry:
-        # entry.remove()
+
         db.session.execute(to_delete)
         db.session.execute(update(Playlist).where(Playlist.id == playlist.id).values(n_songs=Playlist.n_songs-1))
         db.session.commit()
         flash('Song successfully removed your favourites!', category='success')
 
-    # else:
-    # flash('Song already removed!', category='error')
+    return (''), 204
+
+
+@song.route('/remove_from_playlist/<int:id_playlist>/<int:id_song>', methods=['DELETE'])
+@login_required
+def remove_from_playlist(id_song, id_playlist):
+    playlist = Playlist.query.filter_by(id_listener=current_user.id, id=id_playlist).first()
+
+    if playlist:
+        to_delete = songs_playlist.delete().where(songs_playlist.c.id_song == id_song,
+                                                  songs_playlist.c.id_playlist == playlist.id)
+
+        db.session.execute(to_delete)
+        db.session.execute(update(Playlist).where(Playlist.id == playlist.id).values(n_songs=Playlist.n_songs-1))
+        db.session.commit()
+        flash('Song successfully removed your playlist!', category='success')
 
     return (''), 204

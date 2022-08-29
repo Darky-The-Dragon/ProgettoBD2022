@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, url_for, redirect
 from flask_login import login_required, current_user
 
 from .models import *
-from .song import play_song
+from .song import play_song, add_favourite
 
 searched = Blueprint('searched', __name__)
 
@@ -17,6 +17,10 @@ def searched_results(search):
     if song:
         play_song(song)
 
+    add_favourite_song = request.args.get("add_favourite_song")
+    if add_favourite_song:
+        add_favourite(add_favourite_song)
+
     return render_template("search.html", user=current_user, user_type=user_type(current_user.id), search=search,
                            searched_1=searched_1, searched_2=searched_2, searched_3=searched_3)
 
@@ -29,6 +33,10 @@ def search_song_playlist(id_playlist):
     song = request.args.get("play_song")
     if song:
         play_song(song)
+
+    add_favourite_song = request.args.get("add_favourite_song")
+    if add_favourite_song:
+        add_favourite(add_favourite_song)
 
     if searched:
         return redirect(url_for('add_song.insert_song_playlist', search=searched, id_playlist=id_playlist))
