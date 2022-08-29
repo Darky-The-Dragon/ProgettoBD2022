@@ -244,8 +244,11 @@ def search_an_artist(search):
 
 
 def recom(id_user):
+    recommended = []
     if user_type(id_user) == 0:
-       recommended = db.session.query(Artist).join(favourites_artist).filter_by(id_listener=id_user).join(Song).all()
+       recommended = db.session.query(Song).join(Artist, Song.id_artist == Artist.id ).join(favourites_artist).all()
+
+
 
     return recommended
 def user_delete(user_id):
