@@ -18,6 +18,7 @@ views = Blueprint('views', __name__)
 def home():
     searched = request.args.get('searched')
 
+
     if searched:
         return redirect(url_for('searched.searched_results', search=searched))
 
