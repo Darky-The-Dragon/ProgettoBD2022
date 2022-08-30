@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request
 from flask_login import current_user, login_required
 
-from .favourites import add_favourite_artist, remove_favourite_artist
+from .favourites import follow_artist, unfollow_artist
 from .models import *
 from .song import add_favourite, play_song
 
@@ -21,13 +21,13 @@ def artist_info(id_artist):
     songs = song_list(id_artist)
     n_songs = len(songs)
 
-    remove_favourite_ar = request.args.get("remove_favourite_artist")
-    if remove_favourite_ar:
-        remove_favourite_artist(remove_favourite_ar)
+    unfollow = request.args.get("unfollow_artist")
+    if unfollow:
+        unfollow_artist(unfollow)
 
-    add_favourite_ar = request.args.get("add_favourite_artist")
-    if add_favourite_ar:
-        add_favourite_artist(add_favourite_ar)
+    follow = request.args.get("follow_artist")
+    if follow:
+        follow_artist(follow)
 
     add_favourite_song = request.args.get("add_favourite_song")
     if add_favourite_song:

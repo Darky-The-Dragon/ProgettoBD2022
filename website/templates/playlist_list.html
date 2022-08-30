@@ -13,10 +13,17 @@
                 <div class="page-content">
                     <div class="gaming-library profile-library">
                         <div class="col-lg-12">
+                        {% if playlists |count > 2 %}
                             <div class="heading-section">
                                 <h4>Your playlists:</h4>
                             </div>
                             <br>
+                        {% else %}
+                            <div class="heading-section">
+                                <h4>You don't have any playlists</h4>
+                            </div>
+                            <br/>
+                        {% endif %}
                             {% for i in playlists %}
                                 {% if i.playlist_name!="Favourite Songs" %}
                                     <div class="item">

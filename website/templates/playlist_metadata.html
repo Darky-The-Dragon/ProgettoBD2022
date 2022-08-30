@@ -42,10 +42,16 @@
                     <div class="gaming-library profile-library">
                         <div class="col-lg-12">
                             {% if playlist.playlist_name == "Favourite Songs" %}
-                                <div class="heading-section">
-                                    <h4>Your favourite songs:</h4>
-                                </div>
-                                <br>
+                                {% if songs %}
+                                    <div class="heading-section">
+                                        <h4>Your favourite songs:</h4>
+                                    </div>
+                                    <br>
+                                {% else %}
+                                    <div class="heading-section">
+                                        <h4>You don't have any favourite songs</h4>
+                                    </div>
+                                {% endif %}
                             {% else %}
                                 {% if songs %}
                                     <div class="heading-section">
