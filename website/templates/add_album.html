@@ -7,7 +7,7 @@
 
 {% block content %}
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='add_album_style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='forms_style.css') }}">
 
     <body>
     <form method="POST">
@@ -20,7 +20,7 @@
                 <select class="text" name="album_c" id="album_c">
                     <option value="none">None</option>
                     {% if album %}
-                        {% for i in album %}
+                        {% for i in album |sort(attribute='album_name') %}
                             <option value="{{ i.id }}">{{ i.album_name }}</option>
                         {% endfor %}
                     {% endif %}
@@ -33,6 +33,7 @@
     </form>
 
     <form method="POST">
+        <br/>
         <legend><span class="number">2</span> Insert an Album</legend>
         <fieldset>
             <div class="fadeIn second">

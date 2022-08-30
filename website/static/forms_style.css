@@ -18,6 +18,12 @@ html[xmlns] .clearfix {
     height: 1%;
 }
 
+ul, li {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
 header, nav, section, article, aside, footer, hgroup {
     display: block;
 }
@@ -50,6 +56,19 @@ h2, h3, h4, h5, h6 {
     margin-bottom: 0px;
     color: #fff;
     font-weight: 700;
+}
+
+a h6 {
+    color: #CCC;
+    text-decoration: none !important;
+}
+
+a h6:hover {
+    color: #3ac162;
+}
+
+ul {
+    margin-bottom: 0px;
 }
 
 p {
@@ -138,9 +157,7 @@ fieldset {
 }
 
 legend {
-    padding-top: 5px;
     font-size: 1.4em;
-    margin-top: 10px;
     margin-bottom: 10px;
     color: #fff;
     font-weight: 700;
@@ -172,6 +189,21 @@ label.light {
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2);
     border-radius: 100%;
 }
+
+.string {
+    background-color: #5fcf80;
+    color: #fff;
+    height: 30px;
+    width: 30px;
+    display: inline-block;
+    font-size: 0.8em;
+    margin-right: 4px;
+    line-height: 30px;
+    text-align: center;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2);
+    border-radius: 100%;
+}
+
 
 footer p {
     text-align: center;

@@ -223,34 +223,32 @@ def song_list_playlist(id_playlist):
 
 
 def search_a_song(search):
-    if search:
-        found = db.session.query(Song).filter(func.lower(Song.title).contains(func.lower(search))).all()
+    found = db.session.query(Song).filter(func.lower(Song.title).contains(func.lower(search))).all()
     return found
 
 
 def search_an_album(search):
-    if search:
-        found = db.session.query(Album).filter(func.lower(Album.album_name).contains(func.lower(search))).all()
+    found = db.session.query(Album).filter(func.lower(Album.album_name).contains(func.lower(search))).all()
     return found
 
 
 def search_an_artist(search):
-    if search:
-        found = db.session.query(User).join(Artist, Artist.id == User.id).filter(
-            func.lower(User.username).contains(func.lower(search)))
+    found = db.session.query(User).join(Artist, Artist.id == User.id).filter(
+        func.lower(User.username).contains(func.lower(search)))
 
-        test = found.all()
+    test = found.all()
     return test
 
 
-def recom(id_user):
-    recommended = []
+def recommended(id_user):
+    recommended_list = []
     if user_type(id_user) == 0:
-       recommended = db.session.query(Song).join(Artist, Song.id_artist == Artist.id ).join(favourites_artist).all()
+        recommended_list = db.session.query(Song).join(Artist, Song.id_artist == Artist.id).join(
+            favourites_artist).all()
+
+    return recommended_list
 
 
-
-    return recommended
 def user_delete(user_id):
     if user_id:
         to_delete = db.session.query(User).filter_by(id=user_id).first()

@@ -65,7 +65,7 @@
                                     <br>
                                 {% endif %}
                             {% endif %}
-                            {% for i in songs %}
+                            {% for i in songs |sort(attribute='launch_date') %}
                                 <div class="item">
                                     <ul>
                                         <li>

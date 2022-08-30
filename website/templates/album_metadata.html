@@ -62,7 +62,7 @@
                                     <h4>There are no songs in this album</h4>
                                 </div>
                             {% endif %}
-                            {% for i in songs %}
+                            {% for i in songs |sort(attribute='title') %}
                                 <div class="item">
                                     <ul>
                                         <li>

@@ -8,7 +8,7 @@
 
 {% block content %}
     <!--Carica il css del login da ./static-->
-    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard_style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main_style.css') }}">
     <body>
 
     <div class="container">
@@ -145,7 +145,7 @@
                             {% endif %}
 
                             {% if albums %}
-                                {% for i in albums %}
+                                {% for i in albums |sort(attribute='launch_date', reverse = True) %}
                                     <div class="item">
                                         <ul>
                                             <li><img
@@ -191,7 +191,7 @@
                                 {% endif %}
                             {% endif %}
                             {% if songs %}
-                                {% for i in songs %}
+                                {% for i in songs |sort(attribute='launch_date', reverse = True) %}
                                     <div class="item">
                                         <ul>
                                             <li>

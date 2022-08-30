@@ -6,7 +6,7 @@
 <!-- I override the block content created in "base.html" -->
 
 {% block content %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard_style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main_style.css') }}">
     <body>
     <br/>
     <div class="container">
@@ -29,7 +29,7 @@
                                 </div>
                                 <br>
 
-                                {% for i in searched_1 %}
+                                {% for i in searched_1 |sort(attribute='username') %}
                                     <div class="item">
                                         <ul>
                                             <li><img src="https://avatarfiles.alphacoders.com/294/294987.png" alt=""
@@ -69,7 +69,7 @@
                                 </div>
                                 <br>
 
-                                {% for i in searched_2 %}
+                                {% for i in searched_2 |sort(attribute='album_name') %}
                                     <div class="item">
                                         <ul>
                                             <li><img
@@ -98,7 +98,7 @@
                                 </div>
                                 <br>
 
-                                {% for i in searched_3 %}
+                                {% for i in searched_3 |sort(attribute='title') %}
                                     <div class="item">
                                         <ul>
                                             <li>

@@ -24,7 +24,7 @@
                             </div>
                             <br/>
                         {% endif %}
-                            {% for i in playlists %}
+                            {% for i in playlists |sort(attribute='playlist_name') %}
                                 {% if i.playlist_name!="Favourite Songs" %}
                                     <div class="item">
                                         <ul>

@@ -7,7 +7,7 @@
 
 {% block content %}
     <!--Carica il css del login da ./static-->
-    <link rel="stylesheet" href="{{ url_for('static', filename='add_song_style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='forms_style.css') }}">
     <body>
     <form method="POST">
         <div class="form-group" id="add_song">
@@ -68,7 +68,7 @@
                    </div>
                 </div>
             {% endif %}
-                              <button type="submit" class="btn btn-primary">Add Song</button>
+            <button type="submit" class="btn btn-primary">Add Song</button>
         </div>
     </form>
 

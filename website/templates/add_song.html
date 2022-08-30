@@ -7,17 +7,18 @@
 
 {% block content %}
     <!--Carica il css del login da ./static-->
-    <link rel="stylesheet" href="{{ url_for('static', filename='add_song_style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='forms_style.css') }}">
     <body>
     {% if album!=None %}
         <form method="POST">
+        <br/>
             <fieldset>
                 <legend><span class="number">O</span> Album Name:</legend>
                 <h1>{{ album.album_name }}</h1>
                 {% if songs %}
                     <legend><span class="number"></span> Songs List:</legend>
                     </br>
-                    {% for i in songs %}
+                    {% for i in songs |sort(attribute='title') %}
                         <ul>
                             <div class="row">
                                 <div class="col-sm-9">
@@ -45,7 +46,7 @@
                     <div class="form-group">
                        <label for="song_id">Select a song:</label>
                        <select class="fadeIn second" name="song_id" id="song_id">
-                           {% for i in all_songs %}
+                           {% for i in all_songs |sort(attribute='title') %}
                                 <option value="{{ i.id }}">{{ i.title }}</option>
                            {% endfor %}
                     </select>
