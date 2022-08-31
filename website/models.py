@@ -4,6 +4,7 @@
 
 from flask_login import UserMixin
 from sqlalchemy import func, CheckConstraint
+from sqlalchemy.orm import validates
 
 from . import db
 
@@ -103,6 +104,14 @@ class Playlist(db.Model):
     song = db.relationship('Song', secondary=songs_playlist, back_populates='playlist', lazy=True,
                            cascade='save-update')
 
+    # TODO DA FIXARE
+    @validates('n_songs')
+    def validates_n_songs(self, key, value):
+        if value >= 4:
+            return 0
+        else:
+            return 2
+
 
 class Album(db.Model):
     __tablename__ = "albums"
@@ -115,6 +124,14 @@ class Album(db.Model):
     launch_date = db.Column(db.Date, nullable=False)
     artist = db.relationship('Artist', back_populates='album', lazy=True, cascade='all,delete')
     song = db.relationship('Song', secondary=songs_albums, back_populates='album', lazy=True, cascade='save-update')
+
+    # TODO DA FIXARE
+    @validates('n_songs')
+    def validates_n_songs(self, key, value):
+        if value >= 4:
+            return 0
+        else:
+            return 2
 
 
 class Song(db.Model):

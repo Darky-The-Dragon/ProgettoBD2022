@@ -35,7 +35,7 @@ def create_song():
         else:
             try:
                 new_song = Song(id_artist=current_user.id, launch_date=date.today(),
-                                    exp_date=ex_date, title=title, duration=duration, n_replays=0)
+                                exp_date=ex_date, title=title, duration=duration, n_replays=0)
                 db.session.add(new_song)
                 db.session.commit()
                 flash('Song added!', category='success')
@@ -57,11 +57,10 @@ def insert_song_album(id_album):
     if album is None:
         return render_template("404.html", user=current_user, user_type=user_type(current_user.id))
 
-    song_list_= song_list_album(id_album, current_user.id)
+    song_list_ = song_list_album(id_album, current_user.id)
     title = request.form.get('sname_')
     duration = request.form.get('duration_')
     ex_date = request.form.get('ex_date_')
-
 
     if song_id:
         val = db.session.query(Song).join(songs_albums).filter_by(id_album=id_album, id_song=song_id).all()
@@ -118,7 +117,7 @@ def insert_song_playlist(id_playlist, search):
             return redirect(url_for('add_song.insert_song_playlist', id_playlist=id_playlist, search=search))
         else:
             new_song_playlist = songs_playlist.insert().values(id_song=id_song, id_playlist=id_playlist)
-            db.session.execute(update(Playlist).where(Playlist.id == id_playlist).values(n_songs=Playlist.n_songs+1))
+            db.session.execute(update(Playlist).where(Playlist.id == id_playlist).values(n_songs=Playlist.n_songs + 1))
             db.session.execute(new_song_playlist)
             db.session.commit()
 
@@ -131,4 +130,3 @@ def insert_song_playlist(id_playlist, search):
     return render_template("song_in_playlist.html", user=current_user, user_type=user_type(current_user.id),
                            search=search,
                            searched=searched)
-
