@@ -105,12 +105,14 @@ class Playlist(db.Model):
                            cascade='save-update')
 
     # TODO DA FIXARE
-    @validates('n_songs')
-    def validates_n_songs(self, key, value):
-        if value >= 4:
-            return 0
-        else:
-            return 2
+
+
+# @validates('n_songs')
+# def validates_n_songs(self, key, value):
+#    if value >= 4:
+#       return 0
+#     else:
+#       return 2
 
 
 class Album(db.Model):
@@ -126,12 +128,14 @@ class Album(db.Model):
     song = db.relationship('Song', secondary=songs_albums, back_populates='album', lazy=True, cascade='save-update')
 
     # TODO DA FIXARE
-    @validates('n_songs')
-    def validates_n_songs(self, key, value):
-        if value >= 4:
-            return 0
-        else:
-            return 2
+    # @validates('n_songs')
+    # def validates_n_songs(self, key, value):
+    #    var = self.n_songs
+    #   i = len(self.song)
+    #   if (var + value) != i:
+    #      return i
+    #    else:
+    #      return value
 
 
 class Song(db.Model):
@@ -151,6 +155,32 @@ class Song(db.Model):
     album = db.relationship('Album', secondary=songs_albums, back_populates='song', lazy=True, cascade='save-update')
     playlist = db.relationship('Playlist', secondary=songs_playlist, back_populates='song', lazy=True,
                                cascade='save-update')
+
+
+# TRIGGER-------------------------------------------------------------------------------
+
+def pop_trigger():
+    db.session.execute(""" 
+        CREATE OR REPLACE FUNCTION check_n_songs_in_album()
+        RETURNS TRIGGER AS $$
+            BEGIN
+                IF( NEW.n_songs <> (SELECT COUNT(*)
+                                    FROM songs_albums
+                                    WHERE id_album = NEW.id_album))
+                THEN RETURN NULL;
+                END IF;
+                RETURN NEW;
+            END;
+            $$ LANGUAGE plpgsql;
+            
+        DROP TRIGGER IF EXISTS check_n_songs_in_album ON albums;
+        CREATE TRIGGER check_n_songs_in_album
+            BEFORE INSERT OR UPDATE
+            ON albums
+        FOR EACH ROW
+        EXECUTE FUNCTION check_n_songs_in_album();
+        """)
+    db.session.commit()
 
 
 # FUNCTIONS ----------------------------------------------------------------------------
