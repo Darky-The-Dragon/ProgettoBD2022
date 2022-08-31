@@ -43,7 +43,7 @@ def create_app():
     app.register_blueprint(searched, url_prefix='/')
 
     # Script that checks before we run the server every time if we created the database
-    from .models import User
+    from .models import User, pop_trigger
 
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
@@ -58,6 +58,9 @@ def create_app():
     @app.errorhandler(404)
     def page_not_found(e):
         return render_template('404.html'), 404
+
+    with app.app_context():
+        pop_trigger()
 
     db.create_all(app=app)
 
