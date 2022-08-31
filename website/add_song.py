@@ -110,9 +110,11 @@ def insert_song_album(id_album):
 def insert_song_playlist(id_playlist, search):
     searched = search_a_song(search)
     value = request.args.get('searched')
+    print(id_playlist)
 
     if request.method == 'POST':
         id_song = request.form.get('song_id')
+        print(id_song)
 
         if db.session.query(songs_playlist).filter_by(id_playlist=id_playlist, id_song=id_song).first():
             flash('Song already in playlist', category='error')
@@ -131,4 +133,4 @@ def insert_song_playlist(id_playlist, search):
 
     return render_template("song_in_playlist.html", user=current_user, user_type=user_type(current_user.id),
                            search=search,
-                           searched=searched)
+                           searched=searched, id_playlist=id_playlist)
