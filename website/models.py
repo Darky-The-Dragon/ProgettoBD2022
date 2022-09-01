@@ -143,19 +143,23 @@ def pop_trigger():
     db.session.execute(""" 
         CREATE OR REPLACE FUNCTION check_n_songs_in_album()
         RETURNS TRIGGER AS $$
+            DECLARE
+                conta integer;
             BEGIN
-                IF( NEW.n_songs <> (SELECT COUNT(*)
-                                    FROM songs_albums
-                                    WHERE id_album = NEW.id))
-                THEN RETURN NULL;
+                SELECT COUNT(*) INTO conta
+                FROM songs_albums
+                WHERE id_album = NEW.id;
+                
+                IF( NEW.n_songs <> conta)
+                THEN SET NEW.n_songs = conta;
+                    RETURN NEW;
                 END IF;
-                RETURN NEW;
             END;
             $$ LANGUAGE plpgsql;
             
         DROP TRIGGER IF EXISTS check_n_songs_in_album ON albums;
         CREATE TRIGGER check_n_songs_in_album
-            BEFORE INSERT OR UPDATE
+            BEFORE UPDATE OR DELETE
             ON albums
         FOR EACH ROW
         EXECUTE FUNCTION check_n_songs_in_album();
@@ -164,19 +168,23 @@ def pop_trigger():
     db.session.execute(""" 
             CREATE OR REPLACE FUNCTION check_n_songs_in_playlist()
             RETURNS TRIGGER AS $$
+                DECLARE
+                    conta integer;
                 BEGIN
-                    IF( NEW.n_songs <> (SELECT COUNT(*)
-                                        FROM songs_playlists
-                                        WHERE id_playlist= NEW.id))
-                    THEN RETURN NULL;
+                     SELECT COUNT(*) INTO conta
+                     FROM songs_playlists
+                     WHERE id_playlist= NEW.id;
+                     
+                    IF( NEW.n_songs <> conta)
+                    THEN SET NEW.n_songs = conta;
+                        RETURN NEW;
                     END IF;
-                    RETURN NEW;
                 END;
                 $$ LANGUAGE plpgsql;
 
             DROP TRIGGER IF EXISTS check_n_songs_in_playlist ON playlists;
             CREATE TRIGGER check_n_songs_in_playlist
-                BEFORE INSERT OR UPDATE
+                BEFORE UPDATE OR DELETE
                 ON playlists
             FOR EACH ROW
             EXECUTE FUNCTION check_n_songs_in_playlist();
