@@ -60,13 +60,11 @@
                                                  <div class="main-border-button">
                                                     <a href="/song/{{ i.id }}">Preview</a>
                                                  </div>
-                                                 <div class="main-border-button">
-                                                    <a href="user/playlist/add_song/{{ i.id }}/{{ search }}">Add In Playlist</a>
-                                                </div>
+                                                </form>
                                                  <form method="POST">
-                                                        <button name="song_id" type="submit" class="main-border-button" value="{{ i.id }}">Add In
+                                                    <button name="song_id" type="submit" class="btn btn-primary" value="{{ i.id }}">Add In
                                                             Playlist
-                                                        </button>
+                                                    </button>
                                                  </form>
                                             </li>
                                         </ul>

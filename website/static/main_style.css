@@ -41,6 +41,7 @@ a {
     text-decoration: none !important;
 }
 
+
 a:hover {
     color: #3ac162;
 }
@@ -118,6 +119,19 @@ Profile Style
     margin-bottom: 10px;
 }
 
+
+.btn {
+    font-size: 13px;
+    color: #3ac162;
+    background-color: transparent;
+    border: 1px solid #3ac162;
+    margin-inline-start: 10px;
+    margin-inline-end: 0px;
+    padding: 5px 30px;
+    display: inline-block;
+    border-radius: 30px;
+}
+
 .btn_delete:hover {
     background-color: #f44336;
     color: white;
@@ -143,6 +157,7 @@ Profile Style
     overflow: hidden;
     width: 32%;
 }
+
 
 .button a:hover {
     border-color: #fff;
