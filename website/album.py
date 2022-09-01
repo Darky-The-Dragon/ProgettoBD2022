@@ -25,9 +25,6 @@ def album_info(album_id):
     if song:
         play_song(song)
 
-    delete = request.args.get("delete")
-    if delete:
-        delete_album(delete)
 
     artist_data = Artist.query.filter_by(id=this_album.id_artist).first()
     artist_nickname = get_artist_name(artist_data.id)
@@ -38,7 +35,7 @@ def album_info(album_id):
                            songs=song_list, owner=current_user.id == this_album.id_artist)
 
 
-@album.route('/album/delete_album/<int:album_id>', methods=['DELETE'])
+@album.route('/album/delete_album/<int:album_id>')
 @login_required
 def delete_album(album_id):
     to_delete = Album.query.filter_by(id=album_id).first()
@@ -51,4 +48,4 @@ def delete_album(album_id):
         flash("Album already deleted", category='error')
         return redirect(url_for('album.album_info'))
 
-    return (''), 204
+    return redirect(url_for('dashboard.dashboard_load'))

@@ -37,8 +37,8 @@
                                                     <a href="/user/dashboard">Discover Artist</a>
                                                 </div>
                                                 {% if owner %}
-                                                    <div class="delete-button">
-                                                        <a href="?delete={{ album.id }}">Delete Album</a>
+                                                    <div class="main-border_two-button">
+                                                        <a href="/album/delete_album/{{ album.id }}">Delete Album</a>
                                                     </div>
                                                 {% endif %}
                                             {% endif %}
