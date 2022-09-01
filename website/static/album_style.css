@@ -144,7 +144,23 @@ p {
     font-weight: 400;
     text-transform: capitalize;
     letter-spacing: 0.5px;
-    transition: all .3s;
+    transition: all .0s;
+    position: relative;
+    overflow: hidden;
+}
+
+.main-border_two-button a {
+    font-size: 14px;
+    color: #3ac162;
+    background-color: transparent;
+    border: 1px solid #3ac162;
+    padding: 12px 33px;
+    display: inline-block;
+    border-radius: 25px;
+    font-weight: 400;
+    text-transform: capitalize;
+    letter-spacing: 0.5px;
+    transition: all .0s;
     position: relative;
     overflow: hidden;
 }

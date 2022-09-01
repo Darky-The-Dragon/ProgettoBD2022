@@ -12,6 +12,7 @@ album = Blueprint("album", __name__, static_folder='static', template_folder='te
 def album_info(album_id):
     this_album = Album.query.filter_by(id=album_id).first()
 
+
     if this_album is None:
         return render_template("404.html")
 
@@ -29,4 +30,4 @@ def album_info(album_id):
 
     return render_template("album_metadata.html", user=current_user, user_type=user_type(current_user.id),
                            album=this_album, artist=artist_nickname, artist_id=artist_data.id,
-                           songs=song_list)
+                           songs=song_list, owner=current_user.id == this_album.id_artist)
