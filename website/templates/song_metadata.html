@@ -35,6 +35,11 @@
                                                 <div class="main-border-button">
                                                     <a href="/user/dashboard">Discover Artist</a>
                                                 </div>
+                                                {% if owner %}
+                                                    <div class="main-border_three-button">
+                                                        <a href="/user/dashboard">Delete Song</a>
+                                                    </div>
+                                                {% endif %}
                                             {% endif %}
                                         </div>
                                     </div>

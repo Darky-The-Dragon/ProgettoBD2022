@@ -20,7 +20,7 @@ def song_info(song_id):
     artist_nickname = get_artist_name(artist.id)
 
     return render_template("song_metadata.html", user=current_user, user_type=user_type(current_user.id),
-                           song=this_song, artist=artist_nickname)
+                           song=this_song, artist=artist_nickname, owner=current_user.id == this_song.id_artist)
 
 
 @song.route('/add_favourite/<int:id_song>', methods=['GET', 'POST'])

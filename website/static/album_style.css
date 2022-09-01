@@ -165,7 +165,35 @@ p {
     overflow: hidden;
 }
 
+.main-border_three-button a {
+    font-size: 14px;
+    color: #3ac162;
+    background-color: transparent;
+    border: 1px solid #3ac162;
+    padding: 12px 38px;
+    display: inline-block;
+    border-radius: 25px;
+    font-weight: 400;
+    text-transform: capitalize;
+    letter-spacing: 0.5px;
+    transition: all .0s;
+    position: relative;
+    overflow: hidden;
+}
+
 .main-border-button a:hover {
+    border-color: #fff;
+    background-color: #fff;
+    color: #3ac162;
+}
+
+.main-border_two-button a:hover {
+    border-color: #fff;
+    background-color: #fff;
+    color: #3ac162;
+}
+
+.main-border_three-button a:hover {
     border-color: #fff;
     background-color: #fff;
     color: #3ac162;
