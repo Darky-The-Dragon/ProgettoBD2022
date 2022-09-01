@@ -104,15 +104,7 @@ class Playlist(db.Model):
     song = db.relationship('Song', secondary=songs_playlist, back_populates='playlist', lazy=True,
                            cascade='save-update')
 
-    # TODO DA FIXARE
 
-
-# @validates('n_songs')
-# def validates_n_songs(self, key, value):
-#    if value >= 4:
-#       return 0
-#     else:
-#       return 2
 
 
 class Album(db.Model):
@@ -124,18 +116,8 @@ class Album(db.Model):
     n_songs = db.Column(db.Integer, nullable=False)
     description = db.Column(db.String(500), nullable=False)
     launch_date = db.Column(db.Date, nullable=False)
-    artist = db.relationship('Artist', back_populates='album', lazy=True, cascade='all,delete')
+    artist = db.relationship('Artist', back_populates='album', lazy=True)
     song = db.relationship('Song', secondary=songs_albums, back_populates='album', lazy=True, cascade='save-update')
-
-    # TODO DA FIXARE
-    # @validates('n_songs')
-    # def validates_n_songs(self, key, value):
-    #    var = self.n_songs
-    #   i = len(self.song)
-    #   if (var + value) != i:
-    #      return i
-    #    else:
-    #      return value
 
 
 class Song(db.Model):
