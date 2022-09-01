@@ -7,8 +7,8 @@ db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__)
-    app.config['SECRET_KEY'] = 'gianniepinotto'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:gianniepinotto@localhost:5432/progettobd'
+    app.config['SECRET_KEY'] = 'En1ahzie'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:En1ahzie@localhost:5432/ProgettoBD'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
 
@@ -59,9 +59,8 @@ def create_app():
     def page_not_found(e):
         return render_template('404.html'), 404
 
-    with app.app_context():
-        pop_trigger()
-
     db.create_all(app=app)
 
+    with app.app_context():
+        pop_trigger()
     return app
