@@ -180,6 +180,28 @@ def pop_trigger():
         FOR EACH ROW
         EXECUTE FUNCTION check_n_songs_in_album();
         """)
+
+    db.session.execute(""" 
+            CREATE OR REPLACE FUNCTION check_n_songs_in_playlist()
+            RETURNS TRIGGER AS $$
+                BEGIN
+                    IF( NEW.n_songs <> (SELECT COUNT(*)
+                                        FROM songs_playlist
+                                        WHERE id_playlist= NEW.playlist))
+                    THEN RETURN NULL;
+                    END IF;
+                    RETURN NEW;
+                END;
+                $$ LANGUAGE plpgsql;
+
+            DROP TRIGGER IF EXISTS check_n_songs_in_playlist ON playlists;
+            CREATE TRIGGER check_n_songs_in_playlist
+                BEFORE INSERT OR UPDATE
+                ON playlists
+            FOR EACH ROW
+            EXECUTE FUNCTION check_n_songs_in_playlist();
+            """)
+
     db.session.commit()
 
 
