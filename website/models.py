@@ -66,7 +66,7 @@ class Artist(db.Model):
     __tablename__ = "artists"
 
     id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), primary_key=True, nullable=False)
-    n_songs = db.Column(db.Integer, nullable=False)  # Si potrebbe togliere e usare una query
+    n_songs = db.Column(db.Integer, nullable=False)  #TODO Si potrebbe togliere e usare una query
     n_listeners = db.Column(db.Integer, nullable=False)
     user = db.relationship('User', back_populates='artist', lazy=True, cascade='all,delete')
     album = db.relationship('Album', back_populates='artist', lazy=True, cascade='all,delete')
@@ -105,8 +105,6 @@ class Playlist(db.Model):
                            cascade='save-update')
 
 
-
-
 class Album(db.Model):
     __tablename__ = "albums"
 
@@ -133,7 +131,7 @@ class Song(db.Model):
     title = db.Column(db.String(150), nullable=False)
     duration = db.Column(db.Time, nullable=False)
     n_replays = db.Column(db.Integer, nullable=False)
-    artist = db.relationship('Artist', back_populates='song', lazy=True, cascade='all,delete')
+    artist = db.relationship('Artist', back_populates='song', lazy=True, cascade='save-update')
     album = db.relationship('Album', secondary=songs_albums, back_populates='song', lazy=True, cascade='save-update')
     playlist = db.relationship('Playlist', secondary=songs_playlist, back_populates='song', lazy=True,
                                cascade='save-update')

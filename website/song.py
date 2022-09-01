@@ -2,6 +2,9 @@ from flask import Blueprint, render_template, flash, url_for
 from flask_login import login_required, current_user
 from sqlalchemy import select, update
 import operator
+
+from werkzeug.utils import redirect
+
 from .models import db, Artist, Playlist, Song, get_artist_name, user_type, songs_playlist, get_listener_name, Listener, \
     song_list_playlist
 
@@ -65,7 +68,7 @@ def remove_from_favourites(id_song):
                                                   songs_playlist.c.id_playlist == playlist.id)
 
         db.session.execute(to_delete)
-        db.session.execute(update(Playlist).where(Playlist.id == playlist.id).values(n_songs=Playlist.n_songs-1))
+        db.session.execute(update(Playlist).where(Playlist.id == playlist.id).values(n_songs=Playlist.n_songs - 1))
         db.session.commit()
         flash('Song successfully removed your favourites!', category='success')
 
@@ -82,8 +85,19 @@ def remove_from_playlist(id_song, id_playlist):
                                                   songs_playlist.c.id_playlist == playlist.id)
 
         db.session.execute(to_delete)
-        db.session.execute(update(Playlist).where(Playlist.id == playlist.id).values(n_songs=Playlist.n_songs-1))
+        db.session.execute(update(Playlist).where(Playlist.id == playlist.id).values(n_songs=Playlist.n_songs - 1))
         db.session.commit()
         flash('Song successfully removed your playlist!', category='success')
 
     return (''), 204
+
+
+@song.route('/delete_song/<int:id_song>')
+def delete_song(id_song):
+    to_delete = Song.query.filter_by(id=id_song).first()
+    if to_delete:
+        db.session.delete(to_delete)
+        db.session.commit()
+        flash('Song successfully removed ', category='success')
+
+    return redirect(url_for('dashboard.dashboard_load'))

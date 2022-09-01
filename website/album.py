@@ -25,7 +25,6 @@ def album_info(album_id):
     if song:
         play_song(song)
 
-
     artist_data = Artist.query.filter_by(id=this_album.id_artist).first()
     artist_nickname = get_artist_name(artist_data.id)
     song_list = song_list_album(this_album.id, artist_data.id)
