@@ -166,7 +166,7 @@ def pop_trigger():
             BEGIN
                 IF( NEW.n_songs <> (SELECT COUNT(*)
                                     FROM songs_albums
-                                    WHERE id_album = NEW.id_album))
+                                    WHERE id_album = NEW.id))
                 THEN RETURN NULL;
                 END IF;
                 RETURN NEW;
@@ -186,8 +186,8 @@ def pop_trigger():
             RETURNS TRIGGER AS $$
                 BEGIN
                     IF( NEW.n_songs <> (SELECT COUNT(*)
-                                        FROM songs_playlist
-                                        WHERE id_playlist= NEW.playlist))
+                                        FROM songs_playlists
+                                        WHERE id_playlist= NEW.id))
                     THEN RETURN NULL;
                     END IF;
                     RETURN NEW;
