@@ -151,15 +151,18 @@ def pop_trigger():
                 WHERE id_album = NEW.id;
                 
                 IF( NEW.n_songs <> conta)
-                THEN SET NEW.n_songs = conta;
-                    RETURN NEW;
+                THEN 
+                    UPDATE albums
+                    SET n_songs = conta
+                    WHERE NEW.id = id;
                 END IF;
+                RETURN NULL;
             END;
             $$ LANGUAGE plpgsql;
             
         DROP TRIGGER IF EXISTS check_n_songs_in_album ON albums;
         CREATE TRIGGER check_n_songs_in_album
-            BEFORE UPDATE OR DELETE
+            AFTER UPDATE 
             ON albums
         FOR EACH ROW
         EXECUTE FUNCTION check_n_songs_in_album();
@@ -176,15 +179,18 @@ def pop_trigger():
                      WHERE id_playlist= NEW.id;
                      
                     IF( NEW.n_songs <> conta)
-                    THEN SET NEW.n_songs = conta;
-                        RETURN NEW;
+                    THEN 
+                        UPDATE playlists
+                        SET n_songs = conta
+                        WHERE NEW.id = id;
                     END IF;
+                    RETURN NULL;
                 END;
                 $$ LANGUAGE plpgsql;
 
             DROP TRIGGER IF EXISTS check_n_songs_in_playlist ON playlists;
             CREATE TRIGGER check_n_songs_in_playlist
-                BEFORE UPDATE OR DELETE
+                AFTER UPDATE 
                 ON playlists
             FOR EACH ROW
             EXECUTE FUNCTION check_n_songs_in_playlist();
