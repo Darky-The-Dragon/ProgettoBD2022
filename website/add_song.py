@@ -121,8 +121,8 @@ def insert_song_playlist(id_playlist, search):
             return redirect(url_for('add_song.insert_song_playlist', id_playlist=id_playlist, search=search))
         else:
             new_song_playlist = songs_playlist.insert().values(id_song=id_song, id_playlist=id_playlist)
-            db.session.execute(update(Playlist).where(Playlist.id == id_playlist).values(n_songs=Playlist.n_songs + 1))
             db.session.execute(new_song_playlist)
+            db.session.execute(update(Playlist).where(Playlist.id == id_playlist).values(n_songs=Playlist.n_songs + 1))
             db.session.commit()
 
             flash('Song added!', category='success')
