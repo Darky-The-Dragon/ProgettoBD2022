@@ -258,7 +258,7 @@ p {
 }
 
 .favourite-button {
-    background-image: url(https://cdn0.iconfinder.com/data/icons/spotify-line-ui-kit/100/save-to-your-liked-songs-512.png);
+    background-image: url(../static/heart_emtpy.png);
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
@@ -272,7 +272,7 @@ p {
 }
 
 .favourite-button:hover {
-    background-image: url(https://cdn0.iconfinder.com/data/icons/spotify-glyph-set/100/remove-from-your-liked-songs-fill-512.png);
+    background-image: url(../static/heart_full.png);
 }
 
 /*
