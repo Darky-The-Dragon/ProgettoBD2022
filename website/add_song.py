@@ -92,8 +92,8 @@ def insert_song_album(id_album):
                 db.session.add(new_song)
                 db.session.commit()
                 new_songs_album = songs_albums.insert().values(id_album=id_album, id_song=new_song.id)
-                db.session.execute(update(Album).where(Album.id == id_album).values(n_songs=album.n_songs + 1))
                 db.session.execute(new_songs_album)
+                db.session.execute(update(Album).where(Album.id == id_album).values(n_songs=album.n_songs + 1))
                 db.session.commit()
                 flash('Song added!', category='success')
             except:
