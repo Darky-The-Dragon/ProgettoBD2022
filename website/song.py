@@ -6,7 +6,7 @@ import operator
 from werkzeug.utils import redirect
 
 from .models import db, Artist, Playlist, Song, get_artist_name, user_type, songs_playlist, get_listener_name, Listener, \
-    song_list_playlist
+    song_list_playlist, Album, songs_albums
 
 song = Blueprint("song", __name__, static_folder='static', template_folder='templates')
 
@@ -40,6 +40,7 @@ def add_favourite(id_song):
         else:
             new_songs_playlist = songs_playlist.insert().values(id_playlist=playlist.id, id_song=id_song)
             db.session.execute(new_songs_playlist)
+            db.session.execute(update(Playlist).where(Playlist.id == playlist.id).values(n_songs=Playlist.n_songs + 1))
             db.session.commit()
             flash('Song added to your favourites!', category='success')
 
@@ -95,8 +96,20 @@ def remove_from_playlist(id_song, id_playlist):
 @song.route('/delete_song/<int:id_song>')
 def delete_song(id_song):
     to_delete = Song.query.filter_by(id=id_song).first()
+    playlist = select([songs_playlist]).where(songs_playlist.c.id_song == id_song)
+    album = select([songs_albums]).where(songs_albums.c.id_song == id_song)
     if to_delete:
+        result1 = []
+        result2 = []
+        result1 = db.session.execute(playlist).fetchall()
+        result2 = db.session.execute(album).fetchall()
         db.session.delete(to_delete)
+        for s in result1:
+            db.session.execute(
+                update(Playlist).where(Playlist.id == s.id_playlist).values(n_songs=Playlist.n_songs - 1))
+        for t in result2:
+            db.session.execute(update(Album).where(Album.id == t.id_album).values(n_songs=Album.n_songs - 1))
+
         db.session.commit()
         flash('Song successfully removed ', category='success')
 

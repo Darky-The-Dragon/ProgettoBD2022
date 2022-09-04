@@ -25,6 +25,10 @@
                                             <div class="main-info header-text">
                                                 <h4>Playlist:</h4>
                                                 <h2>{{ playlist.playlist_name }}</h2>
+                                                {% if playlist.playlist_name != "Favourite Songs" %}
+                                                <br>
+                                                <h2>{{playlist.description}}</h2>
+                                                {% endif %}
                                             </div>
                                         </div>
                                         <div class="col-lg-4 align-self-center">

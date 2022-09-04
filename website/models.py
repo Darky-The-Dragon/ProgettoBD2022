@@ -22,7 +22,6 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(150))
     gender = db.Column(db.String(150), nullable=False)
     birth_date = db.Column(db.Date, nullable=False)
-    # We need to specify the relationship
     listener = db.relationship('Listener', back_populates='user', lazy=True, cascade='all,delete')
     artist = db.relationship('Artist', back_populates='user', lazy=True, cascade='all,delete')
 
@@ -66,7 +65,6 @@ class Artist(db.Model):
     __tablename__ = "artists"
 
     id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), primary_key=True, nullable=False)
-    n_songs = db.Column(db.Integer, nullable=False)  #TODO Si potrebbe togliere e usare una query
     n_listeners = db.Column(db.Integer, nullable=False)
     user = db.relationship('User', back_populates='artist', lazy=True, cascade='all,delete')
     album = db.relationship('Album', back_populates='artist', lazy=True, cascade='all,delete')
@@ -97,7 +95,7 @@ class Playlist(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True, nullable=False)
     id_listener = db.Column(db.Integer, db.ForeignKey('listeners.id'), nullable=False)
     playlist_name = db.Column(db.String(150), nullable=False)
-    n_songs = db.Column(db.Integer, nullable=False)  # Da togliere, si puo usare una query
+    n_songs = db.Column(db.Integer, nullable=False)
     description = db.Column(db.String(500), nullable=False)
     create_date = db.Column(db.Date, nullable=False)
     listener = db.relationship('Listener', back_populates='playlist', lazy=True)

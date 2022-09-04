@@ -128,7 +128,7 @@ def sign_up():
                     new_base_user = Non_Premium(id=new_user.id)
                     db.session.add(new_base_user)
             if user_type == "artist":
-                new_artist = Artist(id=new_user.id, n_songs=0, n_listeners=0)
+                new_artist = Artist(id=new_user.id, n_listeners=0)
                 db.session.add(new_artist)
             db.session.commit()
             login_user(new_user, remember=True)
