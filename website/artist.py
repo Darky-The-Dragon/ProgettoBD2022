@@ -37,7 +37,6 @@ def artist_info(id_artist):
     if song:
         play_song(song)
 
-
     return render_template("dashboard.html", user=current_user, user_type=user_type(current_user.id),
                            artist=artist_data,
                            artist_name=artist_name, albums=albums, n_album=n_album, songs=songs, n_songs=n_songs)

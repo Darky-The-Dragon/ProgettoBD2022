@@ -4,7 +4,6 @@
 
 from flask_login import UserMixin
 from sqlalchemy import func, CheckConstraint
-from sqlalchemy.orm import validates
 
 from . import db
 

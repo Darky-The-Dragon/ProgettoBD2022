@@ -54,18 +54,18 @@
                         <option value="none">None</option>
                         <option value="yes">Yes</option>
                         <option value="no">No</option>
-                        </select>
+                    </select>
                 </div>
 
                 <div class="form-group" id="PutInAlbum">
                     <div class="form-group">
-                       <label for="album_id">Select an album:</label>
-                       <select class="fadeIn second" name="album_id" id="album_id">
-                           {% for i in album %}
+                        <label for="album_id">Select an album:</label>
+                        <select class="fadeIn second" name="album_id" id="album_id">
+                            {% for i in album %}
                                 <option value="{{ i.id }}">{{ i.album_name }}</option>
-                           {% endfor %}
-                    </select>
-                   </div>
+                            {% endfor %}
+                        </select>
+                    </div>
                 </div>
             {% endif %}
             <button type="submit" class="btn btn-primary">Add Song</button>
@@ -76,7 +76,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <p>Copyright CaFoscari© 2022 <a>Database Project</a> <br> Universita CaFoscari. All rights
+                    <p>Copyright CaFoscari© 2022 <a>Musify</a> <br> Universita CaFoscari. All rights
                         reserved.</p>
                 </div>
             </div>

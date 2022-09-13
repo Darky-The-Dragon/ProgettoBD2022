@@ -3,8 +3,7 @@ from flask_login import login_required, current_user
 from sqlalchemy import update, select
 
 from . import db
-from .models import Playlist, Listener, get_listener_name, song_list_playlist, user_type, favourites_artist, Artist, \
-    get_artist_data, album_list, song_list
+from .models import Playlist, Listener, get_listener_name, song_list_playlist, user_type, favourites_artist, Artist
 from .song import remove_from_favourites, play_song
 
 favourites = Blueprint("favourites", __name__, static_folder='static', template_folder='templates')

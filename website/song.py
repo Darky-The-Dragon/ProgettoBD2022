@@ -1,12 +1,11 @@
+import operator
+
 from flask import Blueprint, render_template, flash, url_for
 from flask_login import login_required, current_user
 from sqlalchemy import select, update
-import operator
-
 from werkzeug.utils import redirect
 
-from .models import db, Artist, Playlist, Song, get_artist_name, user_type, songs_playlist, get_listener_name, Listener, \
-    song_list_playlist, Album, songs_albums
+from .models import db, Artist, Playlist, Song, get_artist_name, user_type, songs_playlist, Album, songs_albums
 
 song = Blueprint("song", __name__, static_folder='static', template_folder='templates')
 

@@ -31,4 +31,5 @@ def home():
     if song:
         play_song(song)
 
-    return render_template("home.html", user=current_user, user_type=user_type(current_user.id), recommendation=recommendation)
+    return render_template("home.html", user=current_user, user_type=user_type(current_user.id),
+                           recommendation=recommendation)

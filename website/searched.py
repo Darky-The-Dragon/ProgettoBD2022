@@ -42,7 +42,7 @@ def search_song_playlist(id_playlist):
     if searched:
         return redirect(url_for('add_song.insert_song_playlist', search=searched, id_playlist=id_playlist))
 
-    return render_template('song_in_playlist.html', user=current_user,id_playlist=id_playlist)
+    return render_template('song_in_playlist.html', user=current_user, id_playlist=id_playlist)
 # searched = Blueprint('searched', __name__)
 
 # @searched.route('/search/<search>', methods = ['GET', 'POST'])
